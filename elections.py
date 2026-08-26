@@ -9,7 +9,7 @@ def ex(x,values=None):
 def initialise():
     try:
         ex('create database election')
-        ex('use votebase')
+        ex('use elections')
         ex('create table voter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
         ex('create table candidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
     except:
