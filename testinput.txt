@@ -1,0 +1,54 @@
+USE votebase;
+
+-- Clear previous test entries
+TRUNCATE TABLE voter;
+TRUNCATE TABLE candidate;
+
+-- Insert Voters (PINs are pre-encoded with your encode function)
+-- Voter 1: PIN 1234 -> ?$Cj (Age: 25)
+INSERT INTO voter VALUES ('V1001', 'Alice Smith', '2001-05-14', '?$Cj');
+
+-- Voter 2: PIN 0000 -> aaaa (Age: 28)
+INSERT INTO voter VALUES ('V1002', 'Bob Jones', '1998-11-23', 'aaaa');
+
+-- Voter 3: PIN 9999 -> <<<< (Age: 23)
+INSERT INTO voter VALUES ('V1003', 'Charlie Brown', '2003-02-01', '<<<<');
+
+-- Voter 4: PIN 5678 -> +@q% (Age: 31)
+INSERT INTO voter VALUES ('V1004', 'Diana Prince', '1995-09-30', '+@q%');
+
+-- Voter 5: PIN 1111 -> ???? (Age: 20)
+INSERT INTO voter VALUES ('V1005', 'Ethan Hunt', '2006-01-15', '????');
+
+-- Voter 6: PIN 2222 -> $$$$ (Age: 22)
+INSERT INTO voter VALUES ('V1006', 'Fiona Gallagher', '2004-07-20', '$$$$');
+
+
+-- Insert Candidates (Must also exist in voter table above to pass candidate eligibility)
+-- Candidate 1: PIN 1234 -> ?$Cj
+INSERT INTO candidate VALUES ('C1001', 'Alice Smith', '2001-05-14', '?$Cj');
+
+-- Candidate 2: PIN 0000 -> aaaa
+INSERT INTO candidate VALUES ('C1002', 'Bob Jones', '1998-11-23', 'aaaa');
+
+-- Candidate 3: PIN 5678 -> +@q%
+INSERT INTO candidate VALUES ('C1003', 'Diana Prince', '1995-09-30', '+@q%');
+
+USE election;
+
+-- Clear active election tables
+TRUNCATE TABLE voter;
+TRUNCATE TABLE candidate;
+
+-- Populate Active Election Voters (Voted initialized to 'NO')
+INSERT INTO voter VALUES ('V1001', 'Alice Smith', '2001-05-14', '?$Cj', 'NO');
+INSERT INTO voter VALUES ('V1002', 'Bob Jones', '1998-11-23', 'aaaa', 'NO');
+INSERT INTO voter VALUES ('V1003', 'Charlie Brown', '2003-02-01', '<<<<', 'NO');
+INSERT INTO voter VALUES ('V1004', 'Diana Prince', '1995-09-30', '+@q%', 'NO');
+INSERT INTO voter VALUES ('V1005', 'Ethan Hunt', '2006-01-15', '????', 'NO');
+INSERT INTO voter VALUES ('V1006', 'Fiona Gallagher', '2004-07-20', '$$$$', 'NO');
+
+-- Populate Active Election Candidates (Votes initialized to 0)
+INSERT INTO candidate VALUES ('C1001', 'Alice Smith', '2001-05-14', '?$Cj', 0);
+INSERT INTO candidate VALUES ('C1002', 'Bob Jones', '1998-11-23', 'aaaa', 0);
+INSERT INTO candidate VALUES ('C1003', 'Diana Prince', '1995-09-30', '+@q%', 0);
