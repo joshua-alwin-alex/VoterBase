@@ -12,6 +12,8 @@ def initialise():
         ex('use election')
         ex('create table voter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
         ex('create table candidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
+        ex('create table possiblevoter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
+        ex('create table possiblecandidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
     except:
         pass
 
@@ -44,40 +46,6 @@ def voting():
             print("Please enter valid candidate number")
         ch=input('Would you like to continue the election (y/n)?:')
 
-def candidateeligibility():
-    ex("use votebase")
-    ex("select * from candidate")
-    candidates=cur.fetchall()
-    print("Sl No.\tCandidateID\tName\tDOB")
-    for i in range(len(candidates)):
-        j=candidates[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
-        n=input("Would you like to select this candidate (y/n)?:")
-        if n in "Yy":
-            ex("use election")
-            data=(j[0], j[1], j[2], j[3], 0)
-            query='insert into candidate values (%s, %s, %s, %s, %s)'
-            ex(query, data)
-            con.commit()
-            print("Candidate added to election list")
-
-def votereligibility():
-    ex("use votebase")
-    ex("select * from voter")
-    candidates=cur.fetchall()
-    print("Sl No.\tCandidateID\tName\tDOB")
-    for i in range(len(candidates)):
-        j=candidates[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
-        n=input("Would you like to select this voter (y/n)?:")
-        if n in "Yy":
-            ex("use election")
-            data=(j[0], j[1], j[2], j[3])
-            query='insert into voter values (%s, %s, %s, %s)'
-            ex(query, data)
-            con.commit()
-            print("Voter added to electoral rolls")
-
 def resultstable():
     ex("use election")
     ex("select * from candidate")
@@ -98,26 +66,20 @@ def programexit():
 def votingportal():
     ch='y'
     while ch in "Yy":
-        n=int(input('\n1. Add Voters to Participate in this Election' \
-        '\n2. Add Candidates to Participate in this Election' \
-        '\n3. Start Election' \
-        '\n4. Display Results in Table Format' \
-        '\n5. Exit' \
+        n=int(input('\n1. Start Election' \
+        '\n2. Display Results in Table Format' \
+        '\n3. Exit' \
         '\nEnter the choice of action:'))
         if n==1:
-            votereligibility()
-        elif n==2:
-            candidateeligibility()
-        elif n==3:
             voting()
-        elif n==4:
+        elif n==2:
             resultstable()
-        elif n==5:
+        elif n==3:
             programexit()
 
-
-initialise()
-votingportal()
+if __name__=="__main__":
+    initialise()
+    votingportal()
 
 
 
