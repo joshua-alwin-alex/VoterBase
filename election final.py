@@ -1,6 +1,9 @@
 import csv
 import mysql.connector as sq
 
+Start=False
+End=False
+
 con = sq.connect(host='localhost', user='root', password='root')
 cur = con.cursor()
 
@@ -92,8 +95,8 @@ def vote():
                 if i[4] == 'YES':
                     print('You have already voted! Double voting is not allowed.')
                 else:
-                    print('Voting:')
-                    print('Candidate No.\t\tCandidate ID\t\tName')
+                    print('\nVoting:')
+                    print('Candidate No.\tCandidate ID\tName')
                     c = 1
                     for cand in candidates:
                         print(c, '\t\t', cand[0], '\t\t', cand[1])
@@ -141,29 +144,9 @@ def CandidateAdd():
     if not found:
         print('Invalid Candidate ID')
 
-def status():
-    ex('use election')
-    ex('select * from candidate')
-    candidates = cur.fetchall()
-    cid = input('Enter Candidate ID: ')
-    found = False
-    for i in candidates:
-        if i[0] == cid:
-            found = True
-            pin = input('Enter your PIN: ')
-            if pin.isdigit() and len(pin) == 4 and decode(i[3]) == pin:
-                ex('select * from candidate where CandidateID=%s', (cid,))
-                candidate = cur.fetchall()
-                print('Candidate ID\t\tName\t\tVotes')
-                print(candidate[0][0], '\t\t', candidate[0][1], '\t\t', candidate[0][4])
-            else:
-                print('Wrong PIN')
-            break
-    if not found:
-        print('Candidate ID not found')
-
 #------------------------admin portal-----------------------------------------
 def end_election():
+    global End
     ex('use election')
     ch = input('\nAre you sure you want to end the current election? (Y/N): ')
     if ch.lower() != 'y':
@@ -191,6 +174,7 @@ def end_election():
     con.commit()
     print('Election has ended...')
     print('Election data saved to', filename + '.csv')
+    End=True
 
 def results():
     import matplotlib.pyplot as plt
@@ -309,89 +293,151 @@ def administrative():
             break
 
 def votingportal():
+    global Start , End
     while True:
         print('\n========== ELECTION SYSTEM ==========\n')
-        print('1. Admin')
-        print('2. Voter')
-        print('3. Candidate')
-        print('4. Exit')
-        ch = input('Enter your choice: ')
-        if ch in ['1', '2', '3', '4']:
-            ch = int(ch)
-        else:
-            print('Invalid Choice')
-            continue
-            
-        if ch == 4:
-            import sys
-            print('Exiting from Election Portal...')
-            sys.exit()
+        if not End and not Start:
+            print('1. Admin')
+            print('2. Register as Voter')
+            print('3. Register as Candidate')
+            print('4. Exit')
+            ch = input('Enter your choice: ')
+            if ch in ['1', '2', '3', '4']:
+                ch = int(ch)
+            else:
+                print('Invalid Choice')
+                continue
+            if ch == 4:
+                import sys
+                print('Exiting from Election Portal...')
+                sys.exit()
+
+        elif not End and Start:
+            print('1. Admin')
+            print('2. Vote (VOTER)')
+            print('3. Exit')
+            ch = input('Enter your choice: ')
+            if ch in ['1', '2', '3']:
+                ch = int(ch)
+            else:
+                print('Invalid Choice')
+                continue
+            if ch == 3:
+                import sys
+                print('Exiting from Election Portal...')
+                sys.exit()
         
-        elif ch == 1:
+        else:
+            print('1. Admin')
+            print('2. Exit')
+            ch = input('Enter your choice: ')
+            if ch in ['1', '2']:
+                ch = int(ch)
+            else:
+                print('Invalid Choice')
+                continue
+            if ch == 2:
+                import sys
+                print('Exiting from Election Portal...')
+                sys.exit()
+#---------------------------------------------------------------------------------------------------------------------------O
+        if ch == 1:
             pin = input('Enter admin PIN: ')
             if pin == 'password':
                 print('Verified...\n')
-                while True:
-                    print('\n========== ADMIN PORTAL ==========\n')
-                    print('1. Administrative Options')
-                    print('2. End Current Election')
-                    print('3. View Election Results')
-                    print('4. Back to Main Menu')
-                    ch = input('Enter your choice: ')
-                    if ch in ['1', '2', '3', '4']:
-                        ch = int(ch)
-                    else:
-                        print('Invalid Choice')
-                        continue
-                    if ch == 4:
-                        break
-                    elif ch == 1:
-                        administrative()
-                    elif ch == 2:
-                        end_election()
-                    elif ch == 3:
-                        results()
-                        resultstable()
+                if End:
+                    while True:
+                        print('\n========== ADMIN PORTAL ==========\n')
+                        print('1. View Election Results')
+                        print('2. Back to Main Menu')
+                        ch = input('Enter your choice: ')
+                        if ch in ['1', '2']:
+                            ch = int(ch)
+                        else:
+                            print('Invalid Choice')
+                            continue
+                        if ch == 2:
+                            break
+                        if ch == 1:
+                            results()
+                elif Start:
+                    while True:
+                        print('\n========== ADMIN PORTAL ==========\n')
+                        print('1. View Registered Voters')
+                        print('2. View Participating Candidates')
+                        print('3. End Current Election')
+                        print('4. View Election Results')
+                        print('5. Back to Main Menu')
+                        n = input('Enter your choice: ')
+                        if n in ['1', '2', '3', '4' , '5']:
+                            n = int(n)
+                        else:
+                            print('Invalid Choice')
+                            continue
+                        if n == 5:
+                            break
+                        elif n == 1:
+                            viewvoters()
+                        elif n == 2:
+                            viewcandidates()
+                        elif n == 3:
+                            end_election()
+                            break
+                        elif n == 4:
+                            results()
+                else:
+                    while True:
+                        print('\n========== ADMIN PORTAL ==========\n')
+                        print('1. Start Election')
+                        print('2. Administrative Options')
+                        print('3. View Election Results')
+                        print('4. Back to Main Menu')
+                        ch = input('Enter your choice: ')
+                        if ch in ['1', '2', '3' , '4']:
+                            ch = int(ch)
+                        else:
+                            print('Invalid Choice')
+                            continue
+                        if ch == 4:
+                            break
+                        if ch == 1:
+                            ex('use election')
+                            ex('select * from candidate')
+                            cand=cur.fetchall()
+                            ex('select * from voter')
+                            voters=cur.fetchall()
+                            print('\nStarting the election will:')
+                            print('-Close voter registration\n-Close candidate registration')
+                            print('-Prevent removal or editing of voters\n-Prevent removal or editing of candidates')
+                            print('-Begin the voting phase.')
+                            verify=input('Are you sure you want to start election (Y/N): ')
+                            if verify.lower()=='y':
+                                if len(cand)>=2 and voters:
+                                    Start=True
+                                    print('\nElection has begun...')
+                                    break
+                                else:
+                                    if len(cand)<2:
+                                        print('Minimum two candidates required for election to begin')
+                                    else:
+                                        print('No registered voters for election to begin')
+                            else:
+                                print('\nElection Start Request Cancelled')
+                        if ch == 2:
+                            administrative()
+                        if ch == 3:
+                            results()
             else:
                 print('Incorrect Admin PIN')
+#---------------------------------------------------------------------------------------------------------------------------O
+        if ch == 2:
+            if Start:
+                vote()
+            else:
+                VoterAdd()
 
-        elif ch == 2:
-            while True:
-                print('\n========== VOTER PORTAL ==========\n')
-                print('1. Register as Voter')
-                print('2. Vote')
-                print('3. Back to Main Menu')
-                ch = input('Enter your choice: ')
-                if ch in ['1', '2', '3']:
-                    ch = int(ch)
-                else:
-                    print('Invalid Choice')
-                    continue
-                if ch == 3:
-                    break
-                elif ch == 1:
-                    VoterAdd()
-                elif ch == 2:
-                    vote()
-
-        elif ch == 3:
-            while True:
-                print('\n========== CANDIDATE PORTAL ==========\n')
-                print('1. Register as Candidate')
-                print('2. See Your Election Status')
-                print('3. Back to Main Menu')
-                ch = input('Enter your choice: ')
-                if ch in ['1', '2', '3']:
-                    ch = int(ch)
-                else:
-                    print('Invalid Choice')
-                    continue
-                if ch == 3:
-                    break
-                elif ch == 1:
-                    CandidateAdd()
-                elif ch == 2:
-                    status()
+        if ch == 3:
+            CandidateAdd()
 
 initialise()
 votingportal()
