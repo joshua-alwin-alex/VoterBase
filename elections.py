@@ -34,6 +34,7 @@ def initialise():
 
 def voting():
     while True:
+        print("==============VOTING PORTAL==============")
         ex("use election")
         ex("select Voted from voter")
         voted=cur.fetchall()
@@ -75,6 +76,7 @@ def voting():
             
 
 def resultstable():
+    print("==============ELECTION RESULT==============")
     ex("use election")
     ex("select * from candidate")
     candidates=cur.fetchall()
@@ -115,6 +117,7 @@ def resultsbarchart():
     plt.ylabel("Votes Received") 
     plt.savefig(ch+".png",dpi=300)
     plt.show()
+    input("Press Enter to go back to Voting Portal")
 
 def resultspiechart():
     import matplotlib.pyplot as plt
@@ -135,28 +138,31 @@ def resultspiechart():
     plt.title("Election Results")
     plt.savefig(ch+".png",dpi=300)
     plt.show()
+    input("Press Enter to go back to Election Portal")    
 
-def votingportal():
-    for i in range(2):
+def electionportal():
+    while True:
+        print("==============ELECTION PORTAL==============")
         n=int(input('\n1. Start Election' \
-        '\n2. Display Results in Table Format' \
-        '\n3. Display Results in Bar Chart Format' \
-        '\n4. Display Results in Pie Chart Format' \
+        '\n2. Save Results to CSV File' \
+        '\n3. Display Results in Table Format' \
+        '\n4. Display Results in Bar Chart Format' \
+        '\n5. Display Results in Pie Chart Format' \
+        '\n6. Go Back to Configuration Portal' \
         '\nEnter the choice of action:'))
         if n==1:
             voting()
         elif n==2:
-            resultstable()
+            saveresult()
         elif n==3:
-            resultsbarchart()
+            resultstable()    
         elif n==4:
+            resultsbarchart()
+        elif n==5:
             resultspiechart()
+        elif n==6:
+            break
 
 if __name__=="__main__":
     initialise()
-    votingportal()
-
-
-
-        
-            
+    electionportal()           

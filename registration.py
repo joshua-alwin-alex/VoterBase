@@ -33,6 +33,7 @@ def initialise():
         pass
 
 def voterregister():
+    print("==============VOTER REGISTRATION PORTAL==============")
     id=input("Enter VoterID:")
     pin=int(input("Enter PIN:"))
     ex('use votebase')
@@ -51,11 +52,12 @@ def voterregister():
         print("Your Voter application was rejected")
 
 def votereligibility():
+    print("==============VOTER SELECTION PORTAL==============")
     ex("use election")
     ex("select * from possiblevoter")
     candidates=cur.fetchall()
-    print("Sl No.\tCandidateID\tName\tDOB")
     for i in range(len(candidates)):
+        print("Sl No.\tCandidateID\tName\tDOB")
         j=candidates[i]
         print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
         n=input("Would you like to select this voter (y/n)?:")
@@ -68,6 +70,7 @@ def votereligibility():
             print("Voter added to electoral rolls")
 
 def candidateregister():
+    print("==============CANDIDATE REGISTRATION PORTAL==============")
     id=input("Enter CandidateID:")
     pin=int(input("Enter PIN:"))
     ex('use votebase')
@@ -86,11 +89,12 @@ def candidateregister():
         print("Your Candidate application was rejected")
 
 def candidateeligibility():
+    print("==============CANDIDATE SELECTION PORTAL==============")
     ex("use election")
     ex("select * from possiblecandidate")
     candidates=cur.fetchall()
-    print("Sl No.\tCandidateID\tName\tDOB")
     for i in range(len(candidates)):
+        print("Sl No.\tCandidateID\tName\tDOB")
         j=candidates[i]
         print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
         n=input("Would you like to select this candidate (y/n)?:")
@@ -103,8 +107,10 @@ def candidateeligibility():
             print("Candidate added to election list")
 
 def admin():
+    print("==============ADMIN PORTAL==============")
     n=int(input("\n1. Approve Possible Voters" \
-    "\n2. Approve Possible Candidates"))
+    "\n2. Approve Possible Candidates" \
+    "\nEnter the choice of action:"))
     if n==1:
         votereligibility()
     elif n==2:
@@ -120,8 +126,64 @@ def programexit():
     import sys
     sys.exit()
 
+def finalreview():
+    print("==============VOTERS==============")
+    ex("use election")
+    ex("select * from voter")
+    voter=cur.fetchall()
+    print("Sl No.\tVoterID\tName\tDOB")
+    for i in range(len(voter)):
+        j=voter[i]
+        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+    print("\n", end="")
+    print("==============CANDIDATES==============")
+    ex("use election")
+    ex("select * from candidate")
+    candidates=cur.fetchall()
+    print("Sl No.\tCandidateID\tName\tDOB")
+    for i in range(len(candidates)):
+        j=candidates[i]
+        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+    ch=input("Would you like to remove Voters or Candidates (y/n)?:")    
+    while ch in "Yy":
+        ch1=int(input("1. Remove Voters \
+                  \n2. Remove Candidates" \
+                  "\nEnter the choice of action:"))
+        if ch1==1:
+            id=input("Enter VoterID to remove:")
+            query='delete from voter where VoterID=%s'
+            data=(id,)
+            ex(query,data)
+            con.commit()
+        elif ch1==2:
+            id=input("Enter CandidateID to remove:")
+            query='delete from candidate where CandidateID=%s'
+            data=(id,)
+            ex(query,data)
+            con.commit()
+        ch=input("Would you like to continue (y/n)?:")
+    print("==============VOTERS==============")
+    ex("use election")
+    ex("select * from voter")
+    voter=cur.fetchall()
+    print("Sl No.\tVoterID\tName\tDOB")
+    for i in range(len(voter)):
+        j=voter[i]
+        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+    print("\n", end="")
+    print("==============CANDIDATES==============")
+    ex("use election")
+    ex("select * from candidate")
+    candidates=cur.fetchall()
+    print("Sl No.\tCandidateID\tName\tDOB")
+    for i in range(len(candidates)):
+        j=candidates[i]
+        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+    input("Press Enter to go to election portal")            
+
 def main():
     while True:
+        print("==============CONFIGURATION PORTAL==============")
         n=int(input("\n1. Voter\n2. Candidate\n3. Admin\n4. Go To Election Portal\n5. Exit" \
         "\nEnter the choice of action:"))
         if n==1:
@@ -131,13 +193,11 @@ def main():
         elif n==3:
             admin()
         elif n==4:
+            finalreview()
             import elections
-            elections.votingportal()
+            elections.electionportal()
         elif n==5:
             programexit()
 
 initialise()
 main()
-        
-
-
