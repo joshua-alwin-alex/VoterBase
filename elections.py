@@ -39,8 +39,8 @@ def voting():
         voted=cur.fetchall()
         for i in voted:
             if i[0]=="No":
-                id=int(input("Enter VoterID:"))
-                pin=int(input("Enter PIN:"))
+                id=input("Enter VoterID:")
+                pin=input("Enter PIN:")
                 query="update voter set Voted = %s where VoterID = %s and PIN = %s"
                 data=("Yes", id, pin)
                 ex(query,data)
@@ -129,7 +129,7 @@ def resultspiechart():
         votes.append(i[4])
     votes1=np.array(votes)
     plt.pie(votes1, labels=name,
-            labeldistance=0.5,
+            labeldistance=1.1,
             autopct="%1.1f%%",
             pctdistance=0.6)
     plt.title("Election Results")

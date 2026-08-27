@@ -28,7 +28,7 @@ def initialise():
     except:
         pass
     try:
-        ex('create table possiblecandidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
+        ex('create table possiblecandidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
     except:
         pass
 
@@ -39,7 +39,7 @@ def voterregister():
     ex("select * from voter")
     voters=cur.fetchall()
     for i in voters:
-        if i[0]==id and i[3]==pin:
+        if i[0]==id and i[3]==str(pin):
             ex("use election")
             data=(i[0], i[1], i[2], i[3])
             query='insert into possiblevoter values (%s, %s, %s, %s)'
@@ -72,9 +72,9 @@ def candidateregister():
     pin=int(input("Enter PIN:"))
     ex('use votebase')
     ex("select * from candidate")
-    voters=cur.fetchall()
-    for i in voters:
-        if i[0]==id and i[3]==pin:
+    candidate=cur.fetchall()
+    for i in candidate:
+        if i[0]==id and i[3]==str(pin):
             ex("use election")
             data=(i[0], i[1], i[2], i[3])
             query='insert into possiblecandidate values (%s, %s, %s, %s)'
