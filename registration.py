@@ -9,11 +9,26 @@ def ex(x,values=None):
 def initialise():
     try:
         ex('create database election')
+    except:
+        pass
+    try:
         ex('use election')
+    except:
+        pass
+    try:
         ex('create table voter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Voted varchar(10))')
+    except:
+        pass
+    try:
         ex('create table candidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
+    except:
+        pass
+    try:
         ex('create table possiblevoter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
-        ex('create table possiblecandidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
+    except:
+        pass
+    try:
+        ex('create table possiblecandidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
     except:
         pass
 
@@ -53,7 +68,7 @@ def votereligibility():
             print("Voter added to electoral rolls")
 
 def candidateregister():
-    id=int(input("Enter CandidateID:"))
+    id=input("Enter CandidateID:")
     pin=int(input("Enter PIN:"))
     ex('use votebase')
     ex("select * from candidate")
@@ -99,6 +114,8 @@ def programexit():
     ex('use election')
     ex('delete from voter')
     ex('delete from candidate')
+    ex('delete from possiblevoter')
+    ex('delete from possiblecandidate')    
     con.commit()
     import sys
     sys.exit()
