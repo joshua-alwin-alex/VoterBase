@@ -96,6 +96,7 @@ def saveresult():
     ch=input("Enter the name of the csv file to save the result into:")
     with open(ch+".csv","w",newline='') as f1:
         w1=csv.writer(f1)
+        w1.writerow(["CandidateID","Name","DOB","Votes Received"])
         w1.writerows(data)
     print("Election Result saved to",ch+".csv")
 
@@ -117,7 +118,7 @@ def resultsbarchart():
     plt.ylabel("Votes Received") 
     plt.savefig(ch+".png",dpi=300)
     plt.show()
-    input("Press Enter to go back to Voting Portal")
+    input("Press Enter to go back to Election Portal")
 
 def resultspiechart():
     import matplotlib.pyplot as plt
