@@ -52,6 +52,8 @@ def voterregister():
         print("Your Voter application was rejected")
 
 def votereligibility():
+    ex("use election")
+    ex("delete from voter")
     print("==============VOTER SELECTION PORTAL==============")
     ex("use election")
     ex("select * from possiblevoter")
@@ -89,6 +91,8 @@ def candidateregister():
         print("Your Candidate application was rejected")
 
 def candidateeligibility():
+    ex("use election")
+    ex("delete from candidate")
     print("==============CANDIDATE SELECTION PORTAL==============")
     ex("use election")
     ex("select * from possiblecandidate")
@@ -107,14 +111,34 @@ def candidateeligibility():
             print("Candidate added to election list")
 
 def admin():
-    print("==============ADMIN PORTAL==============")
-    n=int(input("\n1. Approve Possible Voters" \
-    "\n2. Approve Possible Candidates" \
-    "\nEnter the choice of action:"))
-    if n==1:
-        votereligibility()
-    elif n==2:
-        candidateeligibility()
+    ex('select * from voter')
+    voter=cur.fetchall()
+    ex('select * from candidate')
+    candidate=cur.fetchall()
+    if len(voter)==0 and len(candidate)==0:
+        password='password'
+        ch=input("Enter Admin password:")
+        if ch==password:
+            print("==============ADMIN PORTAL==============")
+            n=int(input("\n1. Approve Possible Voters" \
+            "\n2. Approve Possible Candidates" \
+            "\nEnter the choice of action:"))
+            if n==1:
+                votereligibility()
+            elif n==2:
+                candidateeligibility()
+        else:
+            print("Incorrect Password. Admin privileges denied.")
+    else:
+        print("==============ADMIN PORTAL==============")
+        n=int(input("\n1. Approve Possible Voters" \
+        "\n2. Approve Possible Candidates" \
+        "\nEnter the choice of action:"))
+        if n==1:
+            votereligibility()
+        elif n==2:
+            candidateeligibility()
+
 
 def programexit():
     ex('use election')

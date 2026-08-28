@@ -33,8 +33,8 @@ def initialise():
         pass
 
 def voting():
+    print("==============VOTING PORTAL==============")
     while True:
-        print("==============VOTING PORTAL==============")
         ex("use election")
         ex("select Voted from voter")
         voted=cur.fetchall()
@@ -70,6 +70,15 @@ def voting():
                 else:
                     print("Please enter valid candidate number")
                 break
+            ch=input("Would you like to continue the election (y/n)?:")
+            if ch in "Yy":
+                continue
+            else:
+                password='password'
+                ch=input("Enter Admin password:")
+                if ch==password:
+                    print("Election stopped by Admin")
+                    return
         else:
             print("Election completed successfully")
             break
