@@ -8,8 +8,6 @@ cur=con.cursor()
 def ex(x,values=None):
     cur.execute(x,values)
 
-ex('use votebase')
-
 def encode(num):
     l=['a' , '?' , '$' , 'C' , 'j' , '+' , '@' , 'q' , '%' , '<']
     s=''
@@ -35,6 +33,7 @@ def agecheck(y,m,d,verify=18):
     return age>=verify
 
 def voter():
+    ex('use votebase')
     ex('select * from voter')
     rows=sorted(cur.fetchall())
     
@@ -77,6 +76,7 @@ def voter():
                 print('Not eligible to vote...')
 
 def candidate():
+    ex('use votebase')
     ex('select * from candidate')
     rows=sorted(cur.fetchall())
     ex('select * from voter')

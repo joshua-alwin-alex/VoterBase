@@ -1,4 +1,5 @@
 import mysql.connector as sq
+from permanent import *
 
 con=sq.connect(host='localhost', user='root', password='root')
 cur=con.cursor()
@@ -33,59 +34,83 @@ def initialise():
         pass
 
 def voting():
-    print("==============VOTING PORTAL==============")
+    print("\n==============VOTING PORTAL==============")
     while True:
         ex("use election")
         ex("select Voted from voter")
         voted=cur.fetchall()
+        ex("select * from voter")
+        voters=cur.fetchall()
+        flag=False
         for i in voted:
             if i[0]=="No":
-                id=input("Enter VoterID:")
-                pin=input("Enter PIN:")
-                query="update voter set Voted = %s where VoterID = %s and PIN = %s"
-                data=("Yes", id, pin)
-                ex(query,data)
-                ex("use election")
-                ex("select * from candidate")
-                candidates=cur.fetchall()
-                print("Sl No.\tCandidateID\tName\tDOB")
-                for i in range(len(candidates)):
-                    j=candidates[i]
-                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
-                n=int(input("Enter your choice of candidate (as number):"))
-                if n<=len(candidates):
-                    ex("select * from candidate") #Selecting Candidate Tuple
-                    value=cur.fetchall()
-                    c=value[n-1]
-                    ex("select Votes from candidate") #Selecting originial vote count
-                    votevalue=cur.fetchall()
-                    votecount=votevalue[n-1][0]
-                    ex("select CandidateID from candidate") #Selecting Candidate ID
-                    votecandidate=cur.fetchall()
-                    votecandidateid=votecandidate[n-1][0]
-                    sql="update candidate set votes = %s where CandidateID = %s"
-                    val=(votecount+1, votecandidateid)
-                    ex(sql,val) #Updating vote count
-                    con.commit()
-                else:
-                    print("Please enter valid candidate number")
+                flag=True
                 break
+        else:
+            print("All voters have voted.")
+            print("Election completed successfully")
+            return
+        while flag:
+            id=input("Enter VoterID:")
+            pin=encode(input("Enter PIN:"))
+            for j in voters:
+                if j[0]==id:
+                    if j[3]==pin:
+                        if j[4]=="No":
+                            query="update voter set Voted = %s where VoterID = %s and PIN = %s"
+                            data=("Yes", id, pin)
+                            ex(query,data)
+                            con.commit()
+                            ex("use election")
+                            ex("select * from candidate")
+                            candidates=cur.fetchall()
+                            print("Sl No.\tCandidateID\tName\tDOB")
+                            for i in range(len(candidates)):
+                                j=candidates[i]
+                                print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                            n=input("Enter your choice of candidate (as number):")
+                            if n.isdigit():
+                                if int(n)<=len(candidates):
+                                    ex("select Votes from candidate") #Selecting originial vote count
+                                    votevalue=cur.fetchall()
+                                    votecount=votevalue[int(n)-1][0]
+                                    ex("select CandidateID from candidate") #Selecting Candidate ID
+                                    votecandidate=cur.fetchall()
+                                    votecandidateid=votecandidate[int(n)-1][0]
+                                    sql="update candidate set votes = %s where CandidateID = %s"
+                                    val=(votecount+1, votecandidateid)
+                                    ex(sql,val) #Updating vote count
+                                    con.commit()
+                                else:
+                                    print("Please enter valid candidate number")
+                            else:
+                                print("Please enter the candidate's serial number")
+                            flag=False
+                            break
+                        else:
+                            print("You have already voted")
+                            flag=False
+                            break
+                    else:
+                        print("Please enter correct PIN")
+                        flag=False
+                        break
+            else:
+                print("Please enter valid VoterID")
+                flag=False
+
             ch=input("Would you like to continue the election (y/n)?:")
             if ch in "Yy":
                 continue
             else:
                 password='password'
-                ch=input("Enter Admin password:")
-                if ch==password:
+                ch1=input("Enter Admin password:")
+                if ch1==password:
                     print("Election stopped by Admin")
                     return
-        else:
-            print("Election completed successfully")
-            break
-            
 
 def resultstable():
-    print("==============ELECTION RESULT==============")
+    print("\n==============ELECTION RESULT==============")
     ex("use election")
     ex("select * from candidate")
     candidates=cur.fetchall()
@@ -152,26 +177,28 @@ def resultspiechart():
 
 def electionportal():
     while True:
-        print("==============ELECTION PORTAL==============")
-        n=int(input('\n1. Start Election' \
+        print("\n==============ELECTION PORTAL==============")
+        n=input('\n1. Start Election' \
         '\n2. Save Results to CSV File' \
         '\n3. Display Results in Table Format' \
         '\n4. Display Results in Bar Chart Format' \
         '\n5. Display Results in Pie Chart Format' \
         '\n6. Go Back to Configuration Portal' \
-        '\nEnter the choice of action:'))
-        if n==1:
+        '\nEnter the choice of action:')
+        if n=='1':
             voting()
-        elif n==2:
+        elif n=='2':
             saveresult()
-        elif n==3:
+        elif n=='3':
             resultstable()    
-        elif n==4:
+        elif n=='4':
             resultsbarchart()
-        elif n==5:
+        elif n=='5':
             resultspiechart()
-        elif n==6:
+        elif n=='6':
             break
+        else:
+            print("Please enter valid choice of action")
 
 if __name__=="__main__":
     initialise()
