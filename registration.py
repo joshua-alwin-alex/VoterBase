@@ -1,8 +1,17 @@
 def installrequirements():
     import sys
     import subprocess
+    from shutil import which
+    if which('mysql') is not None:
+        print("MySQL is already installed")
+    else:
+        print("Please install MySQL before running the application")
+        input()
+        import sys
+        sys.exit()
     try:
         import matplotlib
+        print("matplotlib is already installed")
     except ImportError:
         print("Installing module matplotlib")
         try:    
@@ -13,6 +22,7 @@ def installrequirements():
             print("Successfully installed matplotlib")
     try:
         import numpy
+        print("numpy is already installed")
     except:
         print("Installing module numpy")
         try:    
@@ -23,6 +33,7 @@ def installrequirements():
             print("Successfully installed numpy")
     try:
         import mysql.connector
+        print("mysql.connector is already installed")
     except:
         print("Installing module mysql.connector")
         try:    
@@ -258,6 +269,7 @@ def programexit():
             con.commit()            
         elif n=='3':
             print("Thanks for using VoterBase")
+            input()
             import sys
             sys.exit()
         else:
