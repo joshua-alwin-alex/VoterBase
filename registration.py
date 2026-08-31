@@ -1,14 +1,14 @@
 def installrequirements():
     import sys
     import subprocess
-    from shutil import which
-    if which('mysql') is not None:
-        print("MySQL is already installed")
-    else:
-        print("Please install MySQL before running the application")
-        input()
-        import sys
-        sys.exit()
+    #from shutil import which
+    #if which('mysql') is not None:
+    #    print("MySQL is already installed")
+    #else:
+    #    print("Please install MySQL before running the application")
+    #    input()
+    #    import sys
+    #    sys.exit()
     try:
         import matplotlib
         print("matplotlib is already installed")
