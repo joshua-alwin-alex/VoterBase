@@ -1,8 +1,37 @@
-import mysql.connector as sq
-from permanent import *
-con=sq.connect(host='localhost', user='root', password='root')
-cur=con.cursor()
-
+def installrequirements():
+    import sys
+    import subprocess
+    try:
+        import matplotlib
+    except ImportError:
+        print("Installing module matplotlib")
+        try:    
+            subprocess.run([sys.executable,"-m","pip","install","matplotlib"], check=True)
+        except:
+            subprocess.run([sys.executable,"-m","pip3","install","matplotlib"], check=True)
+        finally:
+            print("Successfully installed matplotlib")
+    try:
+        import numpy
+    except:
+        print("Installing module numpy")
+        try:    
+            subprocess.run([sys.executable,"-m","pip","install","numpy"], check=True)
+        except:
+            subprocess.run([sys.executable,"-m","pip3","install","numpy"], check=True)
+        finally:
+            print("Successfully installed numpy")
+    try:
+        import mysql.connector
+    except:
+        print("Installing module mysql.connector")
+        try:    
+            subprocess.run([sys.executable,"-m","pip","install","mysql.connector"], check=True)
+        except:
+            subprocess.run([sys.executable,"-m","pip3","install","mysql.connector"], check=True)
+        finally:
+            print("Successfully installed mysql.connector")        
+        
 def permanentvoterregistration():
     voter()
 
@@ -15,9 +44,6 @@ def ex(x,values=None):
 def initialise():
     try:
         ex('create database votebase')
-        '''con.commit()
-        cur.close()
-        cur=con.cursor()'''
     except:
         pass
     try:
@@ -26,19 +52,14 @@ def initialise():
         pass
     try:
         ex('create table voter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
-        '''con.commit()'''
     except:
         pass
     try:
         ex('create table candidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
-        '''con.commit()'''
     except:
         pass
     try:
         ex('create database election')
-        '''con.commit()
-        cur.close()
-        cur=con.cursor()'''
     except:
         pass
     try:
@@ -47,22 +68,18 @@ def initialise():
         pass
     try:
         ex('create table voter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Voted varchar(10))')
-        '''con.commit()'''
     except:
         pass
     try:
         ex('create table candidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4), Votes int)')
-        '''con.commit()'''
     except:
         pass
     try:
         ex('create table possiblevoter(VoterID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
-        '''con.commit()'''
     except:
         pass
     try:
         ex('create table possiblecandidate(CandidateID varchar(10) primary key, Name varchar(50), DOB date, PIN varchar(4))')
-        '''con.commit()'''
     except:
         pass
 
@@ -333,5 +350,10 @@ def main():
         else:
             print("Please enter valid choice of action")
 
+installrequirements()
+import mysql.connector as sq
+from permanent import *
+con=sq.connect(host='localhost', user='root', password='root')
+cur=con.cursor()
 initialise()
 main()
