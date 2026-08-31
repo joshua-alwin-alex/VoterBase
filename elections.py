@@ -83,8 +83,16 @@ def voting():
                                     con.commit()
                                 else:
                                     print("Please enter valid candidate number")
+                                    query1="update voter set Voted = %s where VoterID = %s and PIN = %s"
+                                    data1=("No", id, pin)
+                                    ex(query1,data1)
+                                    con.commit()
                             else:
                                 print("Please enter the candidate's serial number")
+                                query1="update voter set Voted = %s where VoterID = %s and PIN = %s"
+                                data1=("No", id, pin)
+                                ex(query1,data1)
+                                con.commit()
                             flag=False
                             break
                         else:

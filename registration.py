@@ -99,33 +99,39 @@ def voterregister():
             print("Please enter valid choice of action")
 
 def votereligibility():
-    while True:
-        n=input(("\n1. Select voters for this election" \
-        "\n2. Go Back to Admin Portal" \
-        "\nEnter the choice of action:"))
-        if n=='1':
-            ex("use election")
-            ex("delete from voter")
-            print("\n==============VOTER SELECTION PORTAL==============")
-            ex("use election")
-            ex("select * from possiblevoter")
-            candidates=cur.fetchall()
-            for i in range(len(candidates)):
-                print("\nSl No.\tCandidateID\tName\tDOB")
-                j=candidates[i]
-                print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
-                n=input("Would you like to select this voter (y/n)?:")
-                if n in "Yy":
-                    ex("use election")
-                    data=(j[0], j[1], j[2], j[3], "No")
-                    query='insert into voter values (%s, %s, %s, %s, %s)'
-                    ex(query, data)
-                    con.commit()
-                    print("Voter added to electoral rolls")
-        elif n=='2':
-            break
-        else:
-            print("Please enter valid choice of action")
+    ex('select * from possiblevoter')
+    t=cur.fetchall()
+    if len(t)!=0:
+        while True:
+            n=input(("\n1. Select voters for this election" \
+            "\n2. Go Back to Admin Portal" \
+            "\nEnter the choice of action:"))
+            if n=='1':
+                ex("use election")
+                ex("delete from voter")
+                print("\n==============VOTER SELECTION PORTAL==============")
+                ex("use election")
+                ex("select * from possiblevoter")
+                candidates=cur.fetchall()
+                for i in range(len(candidates)):
+                    print("\nSl No.\tCandidateID\tName\tDOB")
+                    j=candidates[i]
+                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                    n=input("Would you like to select this voter (y/n)?:")
+                    if n in "Yy":
+                        ex("use election")
+                        data=(j[0], j[1], j[2], j[3], "No")
+                        query='insert into voter values (%s, %s, %s, %s, %s)'
+                        ex(query, data)
+                        con.commit()
+                        print("Voter added to electoral rolls")
+            elif n=='2':
+                break
+            else:
+                print("Please enter valid choice of action")
+    else:
+        print("No voters have registered for this election")
+        print("Please ask voters to register for this election before selecting voters")
 
 def candidateregister():
     print("\n==============CANDIDATE REGISTRATION PORTAL==============")
@@ -159,33 +165,39 @@ def candidateregister():
                 print("Please enter valid choice of action")
                 
 def candidateeligibility():
-    while True:
-        n=input(("\n1. Select candidates for this election" \
-        "\n2. Go Back to Admin Portal" \
-        "\nEnter the choice of action:"))
-        if n=='1':
-            ex("use election")
-            ex("delete from candidate")
-            print("\n==============CANDIDATE SELECTION PORTAL==============")
-            ex("use election")
-            ex("select * from possiblecandidate")
-            candidates=cur.fetchall()
-            for i in range(len(candidates)):
-                print("\nSl No.\tCandidateID\tName\tDOB")
-                j=candidates[i]
-                print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
-                n=input("Would you like to select this candidate (y/n)?:")
-                if n in "Yy":
-                    ex("use election")
-                    data=(j[0], j[1], j[2], j[3], 0)
-                    query='insert into candidate values (%s, %s, %s, %s, %s)'
-                    ex(query, data)
-                    con.commit()
-                    print("Candidate added to election list")
-        elif n=='2':
-            break
-        else:
-            print("Please enter valid choice of action")
+    ex('select * from possiblevoter')
+    t=cur.fetchall()
+    if len(t)!=0:
+        while True:
+            n=input(("\n1. Select candidates for this election" \
+            "\n2. Go Back to Admin Portal" \
+            "\nEnter the choice of action:"))
+            if n=='1':
+                ex("use election")
+                ex("delete from candidate")
+                print("\n==============CANDIDATE SELECTION PORTAL==============")
+                ex("use election")
+                ex("select * from possiblecandidate")
+                candidates=cur.fetchall()
+                for i in range(len(candidates)):
+                    print("\nSl No.\tCandidateID\tName\tDOB")
+                    j=candidates[i]
+                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                    n=input("Would you like to select this candidate (y/n)?:")
+                    if n in "Yy":
+                        ex("use election")
+                        data=(j[0], j[1], j[2], j[3], 0)
+                        query='insert into candidate values (%s, %s, %s, %s, %s)'
+                        ex(query, data)
+                        con.commit()
+                        print("Candidate added to election list")
+            elif n=='2':
+                break
+            else:
+                print("Please enter valid choice of action")
+    else:
+        print("No candidates have registered for this election")
+        print("Please ask candidates to register for this election before selecting candidates")
 
 def admin():
     password='password'
@@ -210,15 +222,31 @@ def admin():
 
 
 def programexit():
-    ex('use election')
-    ex('delete from voter')
-    ex('delete from candidate')
-    ex('delete from possiblevoter')
-    ex('delete from possiblecandidate')    
-    con.commit()
-    import sys
-    sys.exit()
-
+    print("==============EXIT PROGRAM OPTIONS==============")
+    flag=True
+    while flag:
+        n=input("\n1. Delete Permanent Voter and Candidate Records" \
+        "\n2. Delete Current Election Records" \
+        "\n3. Exit the Program" \
+        "\nEnter the choice of action:")
+        if n=='1':
+            ex('drop database votebase')
+            print("Permanent Voter and Candidate Records Deleted")
+            flag=True
+            con.commit()
+        elif n=='2':
+            ex('drop database election')
+            print("Current Election Records Deleted")
+            flag=True
+            con.commit()            
+        elif n=='3':
+            print("Thanks for using VoterBase")
+            import sys
+            sys.exit()
+        else:
+            print("Please enter valid choice of action")
+            flag=True
+        
 def finalreview():
     print("\n==============VOTERS==============")
     ex("use election")
