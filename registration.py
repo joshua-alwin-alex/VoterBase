@@ -1,47 +1,80 @@
 def installrequirements():
+    print("==============INSTALLING REQUIREMENTS==============")
     import sys
     import subprocess
-    #from shutil import which
-    #if which('mysql') is not None:
-    #    print("MySQL is already installed")
-    #else:
-    #    print("Please install MySQL before running the application")
-    #    input()
-    #    import sys
-    #    sys.exit()
     try:
-        import matplotlib
-        print("matplotlib is already installed")
-    except ImportError:
-        print("Installing module matplotlib")
-        try:    
-            subprocess.run([sys.executable,"-m","pip","install","matplotlib"], check=True)
+        import windows_tools.installed_software
+        print("\n1. windows_tools.installed_software is already installed")
+    except:
+        try:
+            cmd=["-m","pip","install","windows_tools.installed_software"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("\n1. windows_tools.installed_software successfully installed")
         except:
-            subprocess.run([sys.executable,"-m","pip3","install","matplotlib"], check=True)
-        finally:
-            print("Successfully installed matplotlib")
+            cmd=["-m","pip3","install","windows_tools.installed_software"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("\n1. windows_tools.installed_software successfully installed")            
+    from windows_tools.installed_software import get_installed_software
+    for software in get_installed_software:
+        if "mysql" in software['name'].lower():
+            print("MySQL is already installed")
+            break
+    else:
+        print("Please install MySQL before running the application")
+        input("Press Enter to exit the program")
+        sys.exit()
     try:
         import numpy
-        print("numpy is already installed")
+        print("2. numpy is already installed")
     except:
-        print("Installing module numpy")
-        try:    
-            subprocess.run([sys.executable,"-m","pip","install","numpy"], check=True)
+        try:
+            cmd=["-m","pip","install","numpy"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("2. numpy successfully installed")
         except:
-            subprocess.run([sys.executable,"-m","pip3","install","numpy"], check=True)
-        finally:
-            print("Successfully installed numpy")
+            cmd=["-m","pip3","install","numpy"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("2. numpy successfully installed")
+    try:
+        import matplotlib
+        print("3. matplotlib is already installed")
+    except:
+        try:
+            cmd=["-m","pip","install","matplotlib"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("3. matplotlib successfully installed")
+        except:
+            cmd=["-m","pip3","install","matplotlib"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("3. matplotlib successfully installed")
     try:
         import mysql.connector
-        print("mysql.connector is already installed")
+        print("4. mysql.connector is already installed")
     except:
-        print("Installing module mysql.connector")
-        try:    
-            subprocess.run([sys.executable,"-m","pip","install","mysql.connector"], check=True)
+        try:
+            cmd=["-m","pip","install","mysql.connector"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("4. mysql.connector successfully installed")
         except:
-            subprocess.run([sys.executable,"-m","pip3","install","mysql.connector"], check=True)
-        finally:
-            print("Successfully installed mysql.connector")        
+            cmd=["-m","pip3","install","mysql.connector"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("4. mysql.connector successfully installed")        
         
 def permanentvoterregistration():
     voter()
@@ -106,7 +139,6 @@ def voterregister():
         elif n=='2':
             id=input("Enter VoterID:")
             pin=encode(input("Enter PIN:"))
-            
             ex('use votebase')
             ex("select * from voter")
             voters=cur.fetchall()
@@ -248,14 +280,15 @@ def admin():
     else:
         print("Incorrect Password. Admin privileges denied.")
 
-
 def programexit():
+    import subprocess
     print("==============EXIT PROGRAM OPTIONS==============")
     flag=True
     while flag:
         n=input("\n1. Delete Permanent Voter and Candidate Records" \
         "\n2. Delete Current Election Records" \
-        "\n3. Exit the Program" \
+        "\n3. Uninstall Requirements"
+        "\n4. Exit the Program" \
         "\nEnter the choice of action:")
         if n=='1':
             ex('drop database votebase')
@@ -268,8 +301,57 @@ def programexit():
             flag=True
             con.commit()            
         elif n=='3':
+            try:
+                cmd=["-m","pip","uninstall","windows_tools.installed_software"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("\n1. windows_tools.installed_software successfully uninstalled")
+            except:
+                cmd=["-m","pip3","uninstall","windows_tools.installed_software"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("\n1. windows_tools.installed_software successfully uninstalled")
+            try:
+                cmd=["-m","pip","uninstall","numpy"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("2. numpy successfully uninstalled")
+            except:
+                cmd=["-m","pip3","uninstall","numpy"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("2. numpy successfully uninstalled")
+            try:
+                cmd=["-m","pip","uninstall","matplotlib"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("3. matplotlib successfully uninstalled")
+            except:
+                cmd=["-m","pip3","uninstall","matplotlib"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("3. matplotlib successfully uninstalled")  
+            try:
+                cmd=["-m","pip","uninstall","mysql.connector"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("4. mysql.connector successfully uninstalled")
+            except:
+                cmd=["-m","pip3","uninstall","mysql.connector"]
+                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                code=process.wait()
+                if code==0:
+                    print("4. mysql.connector successfully uninstalled")                  
+        elif n=='4':
             print("Thanks for using VoterBase")
-            input()
+            input("Press Enter to exit the program")
             import sys
             sys.exit()
         else:
@@ -362,7 +444,7 @@ def main():
         else:
             print("Please enter valid choice of action")
 
-installrequirements()
+#installrequirements()
 import mysql.connector as sq
 from permanent import *
 con=sq.connect(host='localhost', user='root', password='root')

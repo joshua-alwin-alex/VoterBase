@@ -69,32 +69,35 @@ def voting():
                                 j=candidates[i]
                                 print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
                             n=input("Enter your choice of candidate (as number):")
-                            if n.isdigit():
-                                if int(n)<=len(candidates):
-                                    ex("select Votes from candidate") #Selecting originial vote count
-                                    votevalue=cur.fetchall()
-                                    votecount=votevalue[int(n)-1][0]
-                                    ex("select CandidateID from candidate") #Selecting Candidate ID
-                                    votecandidate=cur.fetchall()
-                                    votecandidateid=votecandidate[int(n)-1][0]
-                                    sql="update candidate set votes = %s where CandidateID = %s"
-                                    val=(votecount+1, votecandidateid)
-                                    ex(sql,val) #Updating vote count
-                                    con.commit()
+                            flag1=True
+                            while flag1:
+                                if n.isdigit():
+                                    if int(n)<=len(candidates):
+                                        ex("select Votes from candidate") #Selecting originial vote count
+                                        votevalue=cur.fetchall()
+                                        votecount=votevalue[int(n)-1][0]
+                                        ex("select CandidateID from candidate") #Selecting Candidate ID
+                                        votecandidate=cur.fetchall()
+                                        votecandidateid=votecandidate[int(n)-1][0]
+                                        sql="update candidate set votes = %s where CandidateID = %s"
+                                        val=(votecount+1, votecandidateid)
+                                        ex(sql,val) #Updating vote count
+                                        con.commit()
+                                        flag1=False
+                                    else:
+                                        print("Please enter valid candidate number")
+                                        query1="update voter set Voted = %s where VoterID = %s and PIN = %s"
+                                        data1=("No", id, pin)
+                                        ex(query1,data1)
+                                        con.commit()
                                 else:
-                                    print("Please enter valid candidate number")
+                                    print("Please enter the candidate's serial number")
                                     query1="update voter set Voted = %s where VoterID = %s and PIN = %s"
                                     data1=("No", id, pin)
                                     ex(query1,data1)
                                     con.commit()
-                            else:
-                                print("Please enter the candidate's serial number")
-                                query1="update voter set Voted = %s where VoterID = %s and PIN = %s"
-                                data1=("No", id, pin)
-                                ex(query1,data1)
-                                con.commit()
-                            flag=False
-                            break
+                                flag=False
+                                break
                         else:
                             print("You have already voted")
                             flag=False
@@ -120,7 +123,7 @@ def voting():
 def resultstable():
     print("\n==============ELECTION RESULT==============")
     ex("use election")
-    ex("select * from candidate")
+    ex("select * from candidate order by votes")
     candidates=cur.fetchall()
     print("Sl No.\tCandidateID\tName\tDOB\tVotes Received")
     for i in range(len(candidates)):
