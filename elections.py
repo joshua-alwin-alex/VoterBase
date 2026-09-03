@@ -57,20 +57,20 @@ def voting():
                 if j[0]==id:
                     if j[3]==pin:
                         if j[4]=="No":
-                            query="update voter set Voted = %s where VoterID = %s and PIN = %s"
-                            data=("Yes", id, pin)
-                            ex(query,data)
-                            con.commit()
                             ex("use election")
                             ex("select * from candidate")
                             candidates=cur.fetchall()
-                            print("Sl No.\tCandidateID\tName\tDOB")
-                            for i in range(len(candidates)):
-                                j=candidates[i]
-                                print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
-                            n=input("Enter your choice of candidate (as number):")
                             flag1=True
                             while flag1:
+                                query="update voter set Voted = %s where VoterID = %s and PIN = %s"
+                                data=("Yes", id, pin)
+                                ex(query,data)
+                                con.commit()
+                                print("Sl No.\tCandidateID\tName\tDOB")
+                                for i in range(len(candidates)):
+                                    j=candidates[i]
+                                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                                n=input("Enter your choice of candidate (as number):")                                
                                 if n.isdigit():
                                     if int(n)<=len(candidates):
                                         ex("select Votes from candidate") #Selecting originial vote count
@@ -90,12 +90,17 @@ def voting():
                                         data1=("No", id, pin)
                                         ex(query1,data1)
                                         con.commit()
+                                        flag1=True
+                                        continue
                                 else:
                                     print("Please enter the candidate's serial number")
                                     query1="update voter set Voted = %s where VoterID = %s and PIN = %s"
                                     data1=("No", id, pin)
                                     ex(query1,data1)
                                     con.commit()
+                                    flag1=True
+                                    continue
+                            else:
                                 flag=False
                                 break
                         else:

@@ -76,6 +76,12 @@ def installrequirements():
             if code==0:
                 print("4. mysql.connector successfully installed")        
         
+#installrequirements()
+import mysql.connector as sq
+from permanent import *
+con=sq.connect(host='localhost', user='root', password='root')
+cur=con.cursor()
+
 def permanentvoterregistration():
     voter()
 
@@ -139,7 +145,7 @@ def voterregister():
         elif n=='2':
             id=input("Enter VoterID:")
             pin=encode(input("Enter PIN:"))
-            ex('use votebase')
+            ex("use votebase")
             ex("select * from voter")
             voters=cur.fetchall()
             for i in voters:
@@ -205,7 +211,7 @@ def candidateregister():
             elif n=='2':
                 id=input("Enter CandidateID:")
                 pin=encode(input("Enter PIN:"))
-                ex('use votebase')
+                ex("use votebase")
                 ex("select * from candidate")
                 candidate=cur.fetchall()
                 for i in candidate:
@@ -444,10 +450,5 @@ def main():
         else:
             print("Please enter valid choice of action")
 
-#installrequirements()
-import mysql.connector as sq
-from permanent import *
-con=sq.connect(host='localhost', user='root', password='root')
-cur=con.cursor()
 initialise()
 main()
