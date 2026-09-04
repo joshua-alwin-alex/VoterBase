@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
 from datetime import date
 import mysql.connector as sq
 if __name__=="__main__":
-    con=sq.connect(host='localhost', user=username, password='root')
+    con=sq.connect(host='localhost', user=username, password=password)
     cur=con.cursor()
 
 def ex(x,values=None):
