@@ -149,7 +149,7 @@ def installrequirements():
             if code==0:
                 print("4. mysql.connector successfully installed")
         
-#installrequirements()
+installrequirements()
 import mysql.connector as sq
 from permanent import *
 con=sq.connect(host='localhost', user=username, password=password)
