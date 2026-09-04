@@ -1,8 +1,26 @@
+'''VoterBase is a sophisticated CLI Voting Portal
+Copyright (C) 2026  Nandan B. Nair and Joshua Alwin Alex
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
+
+
 import mysql.connector as sq
 from permanent import *
 
-con=sq.connect(host='localhost', user='root', password='root')
-cur=con.cursor()
+if __name__=="__main__":
+    con=sq.connect(host='localhost', user=username, password=password)
+    cur=con.cursor()
 
 def ex(x,values=None):
     cur.execute(x,values)
@@ -34,6 +52,7 @@ def initialise():
         pass
 
 def voting():
+    from tabulate import tabulate
     print("\n==============VOTING PORTAL==============")
     while True:
         ex("use election")
@@ -66,10 +85,12 @@ def voting():
                                 data=("Yes", id, pin)
                                 ex(query,data)
                                 con.commit()
-                                print("Sl No.\tCandidateID\tName\tDOB")
+                                tablelist1=[]
                                 for i in range(len(candidates)):
                                     j=candidates[i]
-                                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                                    table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}
+                                    tablelist1.append(table1)
+                                print(tabulate(tablelist1, headers="keys"))
                                 n=input("Enter your choice of candidate (as number):")                                
                                 if n.isdigit():
                                     if int(n)<=len(candidates):
@@ -125,19 +146,37 @@ def voting():
                     print("Election stopped by Admin")
                     return
 
+def winnerdetails():
+    print("\n==============ELECTION WINNER==============")
+    ex("use election")
+    ex("select * from candidate order by votes desc")
+    candidates=cur.fetchall()
+    j=candidates[0]
+    ex("select sum(votes) from candidate")
+    allvotes=cur.fetchall()
+    s=allvotes[0][0]
+    print("WINNER NAME:",j[1].upper())
+    print("CANDIDATE ID:",j[0])
+    print("DATE OF BIRTH:",j[2])
+    print("VOTES RECEIVED:",j[4])
+    print("VOTE SHARE:",(j[4]/s)*100)
+
 def resultstable():
+    from tabulate import tabulate
     print("\n==============ELECTION RESULT==============")
     ex("use election")
-    ex("select * from candidate order by votes")
+    ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
-    print("Sl No.\tCandidateID\tName\tDOB\tVotes Received")
+    tablelist1=[]
     for i in range(len(candidates)):
         j=candidates[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2],"\t",j[4])
+        table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2], "Votes Reveived":j[4]}
+        tablelist1.append(table1)
+    print(tabulate(tablelist1, headers="keys"))
 
 def saveresult():
     ex("use election")
-    ex("select * from candidate")
+    ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
     data=[]
     for i in candidates:
@@ -155,7 +194,7 @@ def resultsbarchart():
     import numpy as np
     ch=input("Enter the name of the png file to save the bar chart into:")
     ex("use election")
-    ex("select * from candidate")
+    ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
     name=[];votes=[]
     for i in candidates:
@@ -175,7 +214,7 @@ def resultspiechart():
     import numpy as np
     ch=input("Enter the name of the png file to save the pie chart into:")
     ex("use election")
-    ex("select * from candidate")
+    ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
     name=[];votes=[]
     for i in candidates:
@@ -195,23 +234,26 @@ def electionportal():
     while True:
         print("\n==============ELECTION PORTAL==============")
         n=input('\n1. Start Election' \
-        '\n2. Save Results to CSV File' \
+        '\n2. Display Winner Details' \
         '\n3. Display Results in Table Format' \
-        '\n4. Display Results in Bar Chart Format' \
-        '\n5. Display Results in Pie Chart Format' \
-        '\n6. Go Back to Configuration Portal' \
+        '\n4. Save Result to CSV File' \
+        '\n5. Display Results in Bar Chart Format' \
+        '\n6. Display Results in Pie Chart Format' \
+        '\n7. Go Back to Configuration Portal' \
         '\nEnter the choice of action:')
         if n=='1':
             voting()
         elif n=='2':
-            saveresult()
+            winnerdetails()
         elif n=='3':
             resultstable()    
         elif n=='4':
-            resultsbarchart()
+            saveresult()
         elif n=='5':
-            resultspiechart()
+            resultsbarchart()
         elif n=='6':
+            resultspiechart()
+        elif n=='7':
             break
         else:
             print("Please enter valid choice of action")

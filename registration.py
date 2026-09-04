@@ -1,3 +1,60 @@
+'''VoterBase is a sophisticated CLI Voting Portal
+Copyright (C) 2026  Nandan B. Nair and Joshua Alwin Alex
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
+
+print("""VoterBase v1.0.0, Copyright \u00a9 2026 Nandan B. Nair and Joshua Alwin Alex
+"VoterBase comes with ABSOLUTELY NO WARRANTY; for details type 'show warranty clause'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `show conditions clause' for details.""")
+
+c=input("\nType command or press Enter to continue:")
+
+if c.lower() == "show warranty clause":
+    print("""\nTHERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""")
+    print("\nProceeding with application...")
+
+
+elif c.lower == "show conditions clause":
+    print("""\nThis program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.""")
+    print("\nProceeding with application...")
+
+elif c=='':
+    pass
+
+else:
+    print("Invalid choice of action. Proceeding with application...")
+
+print("\n==============MYSQL LOGIN==============")
+username=input("Enter your MySQL username:")
+password=input("Enter your MySQL password:")    
+
 def installrequirements():
     print("==============INSTALLING REQUIREMENTS==============")
     import sys
@@ -74,12 +131,28 @@ def installrequirements():
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("4. mysql.connector successfully installed")        
+                print("4. mysql.connector successfully installed")  
+    try:
+        import tabulate
+        print("5. tabulate is already installed")      
+    except:
+        try:
+            cmd=["-m","pip","install","tabulate"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("4. mysql.connector successfully installed")
+        except:
+            cmd=["-m","pip3","install","tabulate"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("4. mysql.connector successfully installed")
         
 #installrequirements()
 import mysql.connector as sq
 from permanent import *
-con=sq.connect(host='localhost', user='root', password='root')
+con=sq.connect(host='localhost', user=username, password=password)
 cur=con.cursor()
 
 def permanentvoterregistration():
@@ -165,6 +238,7 @@ def voterregister():
             print("Please enter valid choice of action")
 
 def votereligibility():
+    from tabulate import tabulate
     ex('select * from possiblevoter')
     t=cur.fetchall()
     if len(t)!=0:
@@ -178,11 +252,11 @@ def votereligibility():
                 print("\n==============VOTER SELECTION PORTAL==============")
                 ex("use election")
                 ex("select * from possiblevoter")
-                candidates=cur.fetchall()
-                for i in range(len(candidates)):
-                    print("\nSl No.\tCandidateID\tName\tDOB")
-                    j=candidates[i]
-                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                voters=cur.fetchall()
+                for i in range(len(voters)):
+                    j=voters[i]
+                    table=[{"Sl No.":i+1, "VoterID":j[0], "Name":j[1], "DOB":j[2]}]
+                    print(tabulate(table, headers="keys"))
                     n=input("Would you like to select this voter (y/n)?:")
                     if n in "Yy":
                         ex("use election")
@@ -231,7 +305,8 @@ def candidateregister():
                 print("Please enter valid choice of action")
                 
 def candidateeligibility():
-    ex('select * from possiblevoter')
+    from tabulate import tabulate
+    ex('select * from possiblecandidate')
     t=cur.fetchall()
     if len(t)!=0:
         while True:
@@ -246,9 +321,9 @@ def candidateeligibility():
                 ex("select * from possiblecandidate")
                 candidates=cur.fetchall()
                 for i in range(len(candidates)):
-                    print("\nSl No.\tCandidateID\tName\tDOB")
                     j=candidates[i]
-                    print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+                    table=[{"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}]
+                    print(tabulate(table, headers="keys"))                    
                     n=input("Would you like to select this candidate (y/n)?:")
                     if n in "Yy":
                         ex("use election")
@@ -365,23 +440,28 @@ def programexit():
             flag=True
         
 def finalreview():
+    from tabulate import tabulate
     print("\n==============VOTERS==============")
     ex("use election")
     ex("select * from voter")
     voter=cur.fetchall()
-    print("\nSl No.\tVoterID\tName\tDOB")
+    tablelist=[]
     for i in range(len(voter)):
         j=voter[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+        table={"Sl No.":i+1, "VoterID":j[0], "Name":j[1], "DOB":j[2]}
+        tablelist.append(table)
+    print(tabulate(tablelist, headers="keys"))
     print("\n")
     print("\n==============CANDIDATES==============")
     ex("use election")
     ex("select * from candidate")
     candidates=cur.fetchall()
-    print("\nSl No.\tCandidateID\tName\tDOB")
+    tablelist1=[]
     for i in range(len(candidates)):
         j=candidates[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+        table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}
+        tablelist1.append(table1)
+    print(tabulate(tablelist1, headers="keys"))
     ch=input("Would you like to remove Voters or Candidates (y/n)?:")    
     while ch in "Yy":
         ch1=input("\n1. Remove Voters \
@@ -406,19 +486,23 @@ def finalreview():
     ex("use election")
     ex("select * from voter")
     voter=cur.fetchall()
-    print("\nSl No.\tVoterID\tName\tDOB")
+    tablelist=[]
     for i in range(len(voter)):
         j=voter[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+        table={"Sl No.":i+1, "VoterID":j[0], "Name":j[1], "DOB":j[2]}
+        tablelist.append(table)
+    print(tabulate(tablelist, headers="keys"))
     print("\n")
     print("\n==============CANDIDATES==============")
     ex("use election")
     ex("select * from candidate")
     candidates=cur.fetchall()
-    print("\nSl No.\tCandidateID\tName\tDOB")
+    tablelist1=[]
     for i in range(len(candidates)):
         j=candidates[i]
-        print(i+1,"\t",j[0],"\t",j[1],"\t",j[2])
+        table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}
+        tablelist1.append(table1)
+    print(tabulate(tablelist1, headers="keys"))
     input("Press Enter to go to election portal")            
 
 def main():
