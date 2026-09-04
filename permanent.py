@@ -1,5 +1,5 @@
 '''VoterBase is a sophisticated CLI Voting Portal
-Copyright (C) 2026  Nandan B. Nair and Joshua Alwin Alex
+Copyright (C) 2026 Nandan B. Nair and Joshua Alwin Alex
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,9 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
 #voter and candidate info...
 from datetime import date
 import mysql.connector as sq
-if __name__=="__main__":
-    con=sq.connect(host='localhost', user="root", password="root")
-    cur=con.cursor()
+con=sq.connect(host='localhost', user=username, password=password)
+cur=con.cursor()
 
 def ex(x,values=None):
     cur.execute(x,values)

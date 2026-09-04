@@ -1,5 +1,5 @@
 '''VoterBase is a sophisticated CLI Voting Portal
-Copyright (C) 2026  Nandan B. Nair and Joshua Alwin Alex
+Copyright (C) 2026 Nandan B. Nair and Joshua Alwin Alex
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,47 +14,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
 
-print("""VoterBase v1.0.0, Copyright \u00a9 2026 Nandan B. Nair and Joshua Alwin Alex
-"VoterBase comes with ABSOLUTELY NO WARRANTY; for details type 'show warranty clause'.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type `show conditions clause' for details.""")
-
-c=input("\nType command or press Enter to continue:")
-
-if c.lower() == "show warranty clause":
-    print("""\nTHERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
-HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
-OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
-IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
-ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""")
-    print("\nProceeding with application...")
-
-
-elif c.lower == "show conditions clause":
-    print("""\nThis program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.""")
-    print("\nProceeding with application...")
-
-elif c=='':
-    pass
-
-else:
-    print("Invalid choice of action. Proceeding with application...")
-
-print("\n==============MYSQL LOGIN==============")
-username=input("Enter your MySQL username:")
-password=input("Enter your MySQL password:")    
-
 def installrequirements():
     print("==============INSTALLING REQUIREMENTS==============")
     import sys
@@ -64,13 +23,13 @@ def installrequirements():
         print("\n1. windows_tools.installed_software is already installed")
     except:
         try:
-            cmd=["-m","pip","install","windows_tools.installed_software"]
+            cmd=["pip","install","windows_tools.installed_software"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
                 print("\n1. windows_tools.installed_software successfully installed")
         except:
-            cmd=["-m","pip3","install","windows_tools.installed_software"]
+            cmd=["pip3","install","windows_tools.installed_software"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
@@ -89,13 +48,13 @@ def installrequirements():
         print("2. numpy is already installed")
     except:
         try:
-            cmd=["-m","pip","install","numpy"]
+            cmd=["pip","install","numpy"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
                 print("2. numpy successfully installed")
         except:
-            cmd=["-m","pip3","install","numpy"]
+            cmd=["pip3","install","numpy"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
@@ -105,13 +64,13 @@ def installrequirements():
         print("3. matplotlib is already installed")
     except:
         try:
-            cmd=["-m","pip","install","matplotlib"]
+            cmd=["pip","install","matplotlib"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
                 print("3. matplotlib successfully installed")
         except:
-            cmd=["-m","pip3","install","matplotlib"]
+            cmd=["pip3","install","matplotlib"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
@@ -121,13 +80,13 @@ def installrequirements():
         print("4. mysql.connector is already installed")
     except:
         try:
-            cmd=["-m","pip","install","mysql.connector"]
+            cmd=["pip","install","mysql.connector"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
                 print("4. mysql.connector successfully installed")
         except:
-            cmd=["-m","pip3","install","mysql.connector"]
+            cmd=["pip3","install","mysql.connector"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
@@ -137,23 +96,65 @@ def installrequirements():
         print("5. tabulate is already installed")      
     except:
         try:
-            cmd=["-m","pip","install","tabulate"]
+            cmd=["pip","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
                 print("4. mysql.connector successfully installed")
         except:
-            cmd=["-m","pip3","install","tabulate"]
+            cmd=["pip3","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
                 print("4. mysql.connector successfully installed")
+
+if __name__=="__main__":
+    print("""\nVoterBase v1.0.0, Copyright \u00a9 2026 Nandan B. Nair and Joshua Alwin Alex""")
+    print("""VoterBase comes with ABSOLUTELY NO WARRANTY; for details type 'show warranty clause'.""")
+    print("""This is free software, and you are welcome to redistribute it""")
+    print("""under certain conditions; type `show conditions clause' for details.""")
+
+    c=input("\nType command or press Enter to continue:")
+
+    if c.lower() == "show warranty clause":
+        print("""\nTHERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY""")
+        print("""APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT""")
+        print("""HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY""")
+        print("""OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,""")
+        print("""THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR""")
+        print("""PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM""")
+        print("""IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF""")
+        print("""ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""")
+        print("\nProceeding with application...")
+
+
+    elif c.lower == "show conditions clause":
+        print("""\nThis program is free software: you can redistribute it and/or modify""")
+        print("""it under the terms of the GNU General Public License as published by""")
+        print("""the Free Software Foundation, either version 3 of the License, or""")
+        print("""(at your option) any later version.""")
+        print()
+        print("""This program is distributed in the hope that it will be useful,""")
+        print("""but WITHOUT ANY WARRANTY; without even the implied warranty of""")
+        print("""MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the""")
+        print("""GNU General Public License for more details.""")
+        print("\nProceeding with application...")
+
+    elif c=='':
+        pass
+
+    else:
+        print("Invalid choice of action. Proceeding with application...")
+
+    print("\n==============MYSQL LOGIN==============")
+    username=input("Enter your MySQL username:")
+    password=input("Enter your MySQL password:")    
         
-installrequirements()
-import mysql.connector as sq
-from permanent import *
-con=sq.connect(host='localhost', user=username, password=password)
-cur=con.cursor()
+    installrequirements()
+    import mysql.connector as sq
+    from permanent import *
+    con=sq.connect(host='localhost', user=username, password=password)
+    cur=con.cursor()
 
 def permanentvoterregistration():
     voter()
@@ -368,8 +369,7 @@ def programexit():
     while flag:
         n=input("\n1. Delete Permanent Voter and Candidate Records" \
         "\n2. Delete Current Election Records" \
-        "\n3. Uninstall Requirements"
-        "\n4. Exit the Program" \
+        "\n3. Exit the Program" \
         "\nEnter the choice of action:")
         if n=='1':
             ex('drop database votebase')
@@ -380,57 +380,8 @@ def programexit():
             ex('drop database election')
             print("Current Election Records Deleted")
             flag=True
-            con.commit()            
+            con.commit()                         
         elif n=='3':
-            try:
-                cmd=["-m","pip","uninstall","windows_tools.installed_software"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("\n1. windows_tools.installed_software successfully uninstalled")
-            except:
-                cmd=["-m","pip3","uninstall","windows_tools.installed_software"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("\n1. windows_tools.installed_software successfully uninstalled")
-            try:
-                cmd=["-m","pip","uninstall","numpy"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("2. numpy successfully uninstalled")
-            except:
-                cmd=["-m","pip3","uninstall","numpy"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("2. numpy successfully uninstalled")
-            try:
-                cmd=["-m","pip","uninstall","matplotlib"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("3. matplotlib successfully uninstalled")
-            except:
-                cmd=["-m","pip3","uninstall","matplotlib"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("3. matplotlib successfully uninstalled")  
-            try:
-                cmd=["-m","pip","uninstall","mysql.connector"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("4. mysql.connector successfully uninstalled")
-            except:
-                cmd=["-m","pip3","uninstall","mysql.connector"]
-                process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                code=process.wait()
-                if code==0:
-                    print("4. mysql.connector successfully uninstalled")                  
-        elif n=='4':
             print("Thanks for using VoterBase")
             input("Press Enter to exit the program")
             import sys
