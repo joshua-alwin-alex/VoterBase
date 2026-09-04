@@ -19,7 +19,7 @@ import mysql.connector as sq
 from permanent import *
 
 if __name__=="__main__":
-    con=sq.connect(host='localhost', user=username, password=password)
+    con=sq.connect(host='localhost', user="root", password="root")
     cur=con.cursor()
 
 def ex(x,values=None):
