@@ -339,12 +339,13 @@ def admin():
 
 def programexit():
     import subprocess
-    print("==============EXIT PROGRAM OPTIONS==============")
+    print("\n==============EXIT PROGRAM OPTIONS==============")
     flag=True
     while flag:
         n=input("\n1. Delete Permanent Voter and Candidate Records" \
         "\n2. Delete Current Election Records" \
         "\n3. Exit the Program" \
+        "\n4. Go Back to Configuration Portal" \
         "\nEnter the choice of action:")
         if n=='1':
             ex('drop database votebase')
@@ -357,10 +358,14 @@ def programexit():
             flag=True
             con.commit()                         
         elif n=='3':
+            import os
+            os.remove("metadata.txt")
             print("Thanks for using VoterBase")
             input("Press Enter to exit the program")
             import sys
             sys.exit()
+        elif n=='4':
+            break
         else:
             print("Please enter valid choice of action")
             flag=True
