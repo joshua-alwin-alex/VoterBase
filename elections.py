@@ -269,8 +269,4 @@ def electionportal():
         elif n=='7':
             break
         else:
-            print("Please enter valid choice of action")
-
-if __name__=="__main__":
-    initialise()
-    electionportal()           
+            print("Please enter valid choice of action")      

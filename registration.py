@@ -199,13 +199,17 @@ def voterregister():
             voters=cur.fetchall()
             for i in voters:
                 if i[0]==id and i[3]==pin:
-                    ex("use election")
-                    data=(i[0], i[1], i[2], i[3])
-                    query='insert into possiblevoter values (%s, %s, %s, %s)'
-                    ex(query, data)
-                    con.commit()
-                    print("Voter application accepted")
-                    break
+                    try:
+                        ex("use election")
+                        data=(i[0], i[1], i[2], i[3])
+                        query='insert into possiblevoter values (%s, %s, %s, %s)'
+                        ex(query, data)
+                        con.commit()
+                        print("Voter application accepted")
+                        break
+                    except:
+                        print("Duplicate entry is not allowed")
+                        break
             else:
                 print("Your Voter application was rejected")
         elif n=='3':
@@ -266,13 +270,17 @@ def candidateregister():
                 candidate=cur.fetchall()
                 for i in candidate:
                     if i[0]==id and i[3]==pin:
-                        ex("use election")
-                        data=(i[0], i[1], i[2], i[3])
-                        query='insert into possiblecandidate values (%s, %s, %s, %s)'
-                        ex(query, data)
-                        con.commit()
-                        print("Candidate application accepted")
-                        break
+                        try:
+                            ex("use election")
+                            data=(i[0], i[1], i[2], i[3])
+                            query='insert into possiblecandidate values (%s, %s, %s, %s)'
+                            ex(query, data)
+                            con.commit()
+                            print("Candidate application accepted")
+                            break
+                        except:
+                            print("Duplicate entry is not allowed")
+                            break
                 else:
                     print("Your Candidate application was rejected")
             elif n=='3':
