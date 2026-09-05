@@ -15,10 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
 
 #voter and candidate info...
+
+with open("metadata.txt","r") as f1:
+    username=(f1.readline()).strip("\n")
+    password=(f1.readline()).strip("\n")
+
+from main_program import con,cur
 from datetime import date
-import mysql.connector as sq
-con=sq.connect(host='localhost', user=username, password=password)
-cur=con.cursor()
 
 def ex(x,values=None):
     cur.execute(x,values)

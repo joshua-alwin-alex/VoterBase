@@ -14,10 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.'''
 
-import mysql.connector as sq
+with open("metadata.txt","r") as f1:
+    username=(f1.readline()).strip("\n")
+    password=(f1.readline()).strip("\n")
+
+from main_program import con,cur
 from permanent import *
-con=sq.connect(host='localhost', user=username, password=password)
-cur=con.cursor()
 
 def ex(x,values=None):
     cur.execute(x,values)
@@ -187,6 +189,9 @@ def saveresult():
     print("Election Result saved to",ch+".csv")
 
 def resultsbarchart():
+    import matplotlib
+    import tkinter
+    matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
     import numpy as np
     ch=input("Enter the name of the png file to save the bar chart into:")
@@ -203,6 +208,7 @@ def resultsbarchart():
     plt.xlabel("Candidate Name")
     plt.ylabel("Votes Received") 
     plt.savefig(ch+".png",dpi=300)
+    plt.close()
     from PIL import Image
     img=Image.open(ch+".png")
     print("Bar Chart successfully saved to PNG file")
@@ -210,6 +216,9 @@ def resultsbarchart():
     input("Press Enter to go back to Election Portal")
 
 def resultspiechart():
+    import matplotlib
+    import tkinter
+    matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
     import numpy as np
     ch=input("Enter the name of the png file to save the pie chart into:")
@@ -227,6 +236,7 @@ def resultspiechart():
             pctdistance=0.6)
     plt.title("Election Results")
     plt.savefig(ch+".png",dpi=300)
+    plt.close()
     from PIL import Image
     img=Image.open(ch+".png")
     print("Pie Chart successfully saved to PNG file")
