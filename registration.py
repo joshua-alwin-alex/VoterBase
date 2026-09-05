@@ -206,12 +206,15 @@ def voterregister():
                         ex(query, data)
                         con.commit()
                         print("Voter application accepted")
+                        input("\nPress Enter to go back to Voter Registration Portal")
                         break
                     except:
                         print("Duplicate entry is not allowed")
+                        input("\nPress Enter to go back to Voter Registration Portal")
                         break
             else:
-                print("Your Voter application was rejected")
+                print("Your Voter application was rejected.")
+                print("Please register as a permanent voter first.")
         elif n=='3':
             break
         else:
@@ -236,7 +239,7 @@ def votereligibility():
                 for i in range(len(voters)):
                     j=voters[i]
                     table=[{"Sl No.":i+1, "VoterID":j[0], "Name":j[1], "DOB":j[2]}]
-                    print(tabulate(table, headers="keys"))
+                    print("\n"+tabulate(table, headers="keys"))
                     n=input("Would you like to select this voter (y/n)?:")
                     if n in "Yy":
                         ex("use election")
@@ -277,12 +280,15 @@ def candidateregister():
                             ex(query, data)
                             con.commit()
                             print("Candidate application accepted")
+                            input("\nPress Enter to go back to Candidate Registration Portal")
                             break
                         except:
                             print("Duplicate entry is not allowed")
+                            input("\nPress Enter to go back to Candidate Registration Portal")
                             break
                 else:
-                    print("Your Candidate application was rejected")
+                    print("Your Candidate application was rejected.")
+                    print("Please register as a permanent candidate first.")
             elif n=='3':
                 break
             else:
@@ -307,7 +313,7 @@ def candidateeligibility():
                 for i in range(len(candidates)):
                     j=candidates[i]
                     table=[{"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}]
-                    print(tabulate(table, headers="keys"))                    
+                    print("\n"+tabulate(table, headers="keys"))                    
                     n=input("Would you like to select this candidate (y/n)?:")
                     if n in "Yy":
                         ex("use election")
@@ -389,7 +395,7 @@ def finalreview():
         j=voter[i]
         table={"Sl No.":i+1, "VoterID":j[0], "Name":j[1], "DOB":j[2]}
         tablelist.append(table)
-    print(tabulate(tablelist, headers="keys"))
+    print("\n"+tabulate(tablelist, headers="keys"))
     print("\n")
     print("\n==============CANDIDATES==============")
     ex("use election")
@@ -400,7 +406,7 @@ def finalreview():
         j=candidates[i]
         table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}
         tablelist1.append(table1)
-    print(tabulate(tablelist1, headers="keys"))
+    print("\n"+tabulate(tablelist1, headers="keys"))
     ch=input("Would you like to remove Voters or Candidates (y/n)?:")    
     while ch in "Yy":
         ch1=input("\n1. Remove Voters \
@@ -430,7 +436,7 @@ def finalreview():
         j=voter[i]
         table={"Sl No.":i+1, "VoterID":j[0], "Name":j[1], "DOB":j[2]}
         tablelist.append(table)
-    print(tabulate(tablelist, headers="keys"))
+    print("\n"+tabulate(tablelist, headers="keys"))
     print("\n")
     print("\n==============CANDIDATES==============")
     ex("use election")
@@ -441,7 +447,7 @@ def finalreview():
         j=candidates[i]
         table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2]}
         tablelist1.append(table1)
-    print(tabulate(tablelist1, headers="keys"))
+    print("\n"+tabulate(tablelist1, headers="keys"))
     input("Press Enter to go to election portal")            
 
 def main():

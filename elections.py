@@ -65,11 +65,12 @@ def voting():
                 flag=True
                 break
         else:
-            print("All voters have voted.")
+            print("\nAll voters have voted.")
             print("Election completed successfully")
+            input("\nPress Enter to go back to Election Portal")
             return
         while flag:
-            id=input("Enter VoterID:")
+            id=input("\nEnter VoterID:")
             pin=encode(input("Enter PIN:"))
             for j in voters:
                 if j[0]==id:
@@ -140,9 +141,10 @@ def voting():
                 continue
             else:
                 password='password'
-                ch1=input("Enter Admin password:")
+                ch1=input("\nEnter Admin password:")
                 if ch1==password:
                     print("Election stopped by Admin")
+                    input("\nPress Enter to go back to Election Portal")
                     return
 
 def winnerdetails():
@@ -154,15 +156,17 @@ def winnerdetails():
     ex("select sum(votes) from candidate")
     allvotes=cur.fetchall()
     s=allvotes[0][0]
-    print("WINNER NAME:",j[1].upper())
+    print("\nWINNER NAME:",j[1].upper())
     print("CANDIDATE ID:",j[0])
     print("DATE OF BIRTH:",j[2])
     print("VOTES RECEIVED:",j[4])
     print("VOTE SHARE:",(j[4]/s)*100)
+    input("\nPress Enter to go back to Election Portal")
 
 def resultstable():
     from tabulate import tabulate
     print("\n==============ELECTION RESULT==============")
+    print("\n", end="")
     ex("use election")
     ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
@@ -172,6 +176,7 @@ def resultstable():
         table1={"Sl No.":i+1, "CandidateID":j[0], "Name":j[1], "DOB":j[2], "Votes Reveived":j[4]}
         tablelist1.append(table1)
     print(tabulate(tablelist1, headers="keys"))
+    input("\nPress Enter to go back to Election Portal")
 
 def saveresult():
     ex("use election")
@@ -181,12 +186,13 @@ def saveresult():
     for i in candidates:
         data.append([i[0],i[1],i[2],i[4]])
     import csv
-    ch=input("Enter the name of the csv file to save the result into:")
+    ch=input("\nEnter the name of the csv file to save the result into:")
     with open(ch+".csv","w",newline='') as f1:
         w1=csv.writer(f1)
         w1.writerow(["CandidateID","Name","DOB","Votes Received"])
         w1.writerows(data)
     print("Election Result saved to",ch+".csv")
+    input("\nPress Enter to go back to Election Portal")
 
 def resultsbarchart():
     import matplotlib
@@ -194,7 +200,7 @@ def resultsbarchart():
     matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
     import numpy as np
-    ch=input("Enter the name of the png file to save the bar chart into:")
+    ch=input("\nEnter the name of the png file to save the bar chart into:")
     ex("use election")
     ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
@@ -213,7 +219,7 @@ def resultsbarchart():
     img=Image.open(ch+".png")
     print("Bar Chart successfully saved to PNG file")
     img.show()
-    input("Press Enter to go back to Election Portal")
+    input("\nPress Enter to go back to Election Portal")
 
 def resultspiechart():
     import matplotlib
@@ -221,7 +227,7 @@ def resultspiechart():
     matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
     import numpy as np
-    ch=input("Enter the name of the png file to save the pie chart into:")
+    ch=input("\nEnter the name of the png file to save the pie chart into:")
     ex("use election")
     ex("select * from candidate order by votes desc")
     candidates=cur.fetchall()
@@ -241,7 +247,7 @@ def resultspiechart():
     img=Image.open(ch+".png")
     print("Pie Chart successfully saved to PNG file")
     img.show()
-    input("Press Enter to go back to Election Portal")
+    input("\nPress Enter to go back to Election Portal")
 
 def electionportal():
     while True:
