@@ -88,19 +88,23 @@ def voterregister():
             ex("select * from voter")
             voters=cur.fetchall()
             for i in voters:
-                if i[0]==id and i[3]==pin:
-                    try:
-                        ex("use election")
-                        data=(i[0], i[1], i[2], i[3])
-                        query='insert into possiblevoter values (%s, %s, %s, %s)'
-                        ex(query, data)
-                        con.commit()
-                        print("Voter application accepted")
-                        input("\nPress Enter to go back to Voter Registration Portal")
-                        break
-                    except:
-                        print("Duplicate entry is not allowed")
-                        input("\nPress Enter to go back to Voter Registration Portal")
+                if i[0]==id:
+                    if i[3]==pin:
+                        try:
+                            ex("use election")
+                            data=(i[0], i[1], i[2], i[3])
+                            query='insert into possiblevoter values (%s, %s, %s, %s)'
+                            ex(query, data)
+                            con.commit()
+                            print("Voter application accepted")
+                            input("\nPress Enter to go back to Voter Registration Portal")
+                            break
+                        except:
+                            print("Duplicate entry is not allowed")
+                            input("\nPress Enter to go back to Voter Registration Portal")
+                            break
+                    else:
+                        print("Please enter correct PIN")
                         break
             else:
                 print("Your Voter application was rejected.")
@@ -162,19 +166,23 @@ def candidateregister():
                 ex("select * from candidate")
                 candidate=cur.fetchall()
                 for i in candidate:
-                    if i[0]==id and i[3]==pin:
-                        try:
-                            ex("use election")
-                            data=(i[0], i[1], i[2], i[3])
-                            query='insert into possiblecandidate values (%s, %s, %s, %s)'
-                            ex(query, data)
-                            con.commit()
-                            print("Candidate application accepted")
-                            input("\nPress Enter to go back to Candidate Registration Portal")
-                            break
-                        except:
-                            print("Duplicate entry is not allowed")
-                            input("\nPress Enter to go back to Candidate Registration Portal")
+                    if i[0]==id:
+                        if i[3]==pin:
+                            try:
+                                ex("use election")
+                                data=(i[0], i[1], i[2], i[3])
+                                query='insert into possiblecandidate values (%s, %s, %s, %s)'
+                                ex(query, data)
+                                con.commit()
+                                print("Candidate application accepted")
+                                input("\nPress Enter to go back to Candidate Registration Portal")
+                                break
+                            except:
+                                print("Duplicate entry is not allowed")
+                                input("\nPress Enter to go back to Candidate Registration Portal")
+                                break
+                        else:
+                            print("Please enter correct PIN")
                             break
                 else:
                     print("Your Candidate application was rejected.")
@@ -243,7 +251,7 @@ def admin():
                 print("Please enter valid choice of action")
     else:
         print("Incorrect Password. Admin privileges denied.")
-        input("Press Enter to go back to Configuration Portal")
+        input("\nPress Enter to go back to Configuration Portal")
 
 def programexit():
     import subprocess
@@ -256,12 +264,18 @@ def programexit():
         "\n4. Go Back to Configuration Portal" \
         "\nEnter the choice of action:")
         if n=='1':
-            ex('drop database votebase')
+            ex('use votebase')
+            ex('delete from voter')
+            ex('delete from candidate')
             print("Permanent Voter and Candidate Records Deleted")
             flag=True
             con.commit()
         elif n=='2':
-            ex('drop database election')
+            ex('use election')
+            ex('delete from voter')
+            ex('delete from candidate')
+            ex('delete from possiblevoter')
+            ex('delete from possiblecandidate')
             print("Current Election Records Deleted")
             flag=True
             con.commit()                         

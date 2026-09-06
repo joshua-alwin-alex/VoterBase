@@ -152,7 +152,7 @@ def voting():
                 else:
                     print("Incorrect Password. Election not stopped.")
                     print("Proceeding with election...")
-                    input("Press Enter to continue")
+                    input("\nPress Enter to continue")
                     continue
 
 def winnerdetails():
@@ -244,17 +244,20 @@ def resultspiechart():
         name.append(i[1])
         votes.append(i[4])
     votes1=np.array(votes)
-    plt.pie(votes1, labels=name,
-            labeldistance=1.1,
-            autopct="%1.1f%%",
-            pctdistance=0.6)
-    plt.title("Election Results")
-    plt.savefig(ch+".png",dpi=300)
-    plt.close()
-    from PIL import Image
-    img=Image.open(ch+".png")
-    print("Pie Chart successfully saved to PNG file")
-    img.show()
+    try:
+        plt.pie(votes1, labels=name,
+                labeldistance=1.1,
+                autopct="%1.1f%%",
+                pctdistance=0.6)
+        plt.title("Election Results")
+        plt.savefig(ch+".png",dpi=300)
+        plt.close()
+        from PIL import Image
+        img=Image.open(ch+".png")
+        print("Pie Chart successfully saved to PNG file")
+        img.show()
+    except:
+        print("Pie Chart cannot be created without valid election result")
     input("\nPress Enter to go back to Election Portal")
 
 def electionportal():

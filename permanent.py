@@ -65,10 +65,12 @@ def voter():
                 dob=date(int(y),int(m),int(d))
             except (ValueError, TypeError):
                 print('Invalid Date')
-                continue
+                input("\nPress Enter to go back to Voter Registration Portal")
+                break
             if any((name, dob) == (i[1], i[2]) for i in rows):
                 print('Voter already registered!')
-                continue
+                input("\nPress Enter to go back to Voter Registration Portal")
+                break
             if agecheck(int(y),int(m),int(d)):
                 print('Eligible to vote!')
                 if not rows:
@@ -88,15 +90,20 @@ def voter():
                     con.commit()
                     print('Voter Information Added...')
                     ch=0
+                    input("\nPress Enter to go back to Voter Registration Portal")
                     break
                 else:
                     print('Wrong Pin')
+                    input("\nPress Enter to go back to Voter Registration Portal")
                     break
             else:
                 print('Not eligible to vote...')
+                input("\nPress Enter to go back to Voter Registration Portal")
                 break
         else:
             print("Invalid name...")
+            input("\nPress Enter to go back to Voter Registration Portal")
+            break
 
 def candidate():
     ex('use votebase')
@@ -115,18 +122,22 @@ def candidate():
                 dob=date(int(y),int(m),int(d))
             except (ValueError, TypeError):
                 print('Invalid Date')
-                continue
+                input("\nPress Enter to go back to Canidate Registration Portal")
+                break
             if any((name, dob) == (i[1], i[2]) for i in rows):
                 print('Candidate already registered!')
-                continue
+                input("\nPress Enter to go back to Canidate Registration Portal")
+                break
             cit=input('Are you an Indian citizen? (Y/N):')
             if cit.lower()!='y':
                 print('Not eligible to contest...')
-                continue
+                input("\nPress Enter to go back to Canidate Registration Portal")
+                break
             bar=input('Are you barred from contesting elections due to a criminal conviction? (Y/N): ')
             if bar.lower()!='n':
                 print('Not eligible to contest...')
-                continue
+                input("\nPress Enter to go back to Canidate Registration Portal")
+                break
             vid=input('Enter your Voter ID (mandatory): ')
             if agecheck(int(y),int(m),int(d),25):
                 if any((vid, name, dob)==(i[0],i[1],i[2]) for i in vrows):
@@ -148,15 +159,21 @@ def candidate():
                         con.commit()
                         print('Candidate Information Added...')
                         ch=0
+                        input("\nPress Enter to go back to Canidate Registration Portal")
                         break
                     else:
                         print('Wrong Pin')
+                        input("\nPress Enter to go back to Canidate Registration Portal")
                         break
                 else:
                     print('Information does not match with Voter Record')
+                    input("\nPress Enter to go back to Canidate Registration Portal")
                     break
             else:
                 print('Not eligible to contest...')
+                input("\nPress Enter to go back to Canidate Registration Portal")
                 break
         else:
             print("Invalid name...")
+            input("\nPress Enter to go back to Canidate Registration Portal")
+            break
