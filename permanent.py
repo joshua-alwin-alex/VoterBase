@@ -58,40 +58,47 @@ def voter():
     ch=1
     while ch:
             name=input('\nEnter voter name: ')
-            dob=input('Enter date of birth (DD-MM-YYYY): ').split('-')
-            try:
-                d,m,y=dob
-                dob=date(int(y),int(m),int(d))
-            except (ValueError, TypeError):
-                print('Invalid Date')
+            if name.isdigit():
                 continue
-            if any((name, dob) == (i[1], i[2]) for i in rows):
-                print('Voter already registered!')
-                continue
-            if agecheck(int(y),int(m),int(d)):
-                print('Eligible to vote!')
-                if not rows:
-                    vid='V1001'
-                else:
-                    v=0
-                    vid='V1001'
-                    for i in rows:
-                        if i[0]==vid:
-                            v+=1
-                            vid='V'+str(1000+v+1)
-                print('\nNew Voter ID: ' , vid)
-                p=input('Enter 4-digit PIN: ')
-                if len(p)==4 and p.isdigit():
-                    p=encode(p)
-                    ex('insert into voter values(%s,%s,%s,%s)',(vid,name,dob,p))
-                    con.commit()
-                    print('Voter Information Added...')
-                    ch=0
-                    break
-                else:
-                    print('Wrong Pin')
+            elif name.isspace():
+                continue    
             else:
-                print('Not eligible to vote...')
+                dob=input('Enter date of birth (DD-MM-YYYY): ').split('-')
+                try:
+                    d,m,y=dob
+                    dob=date(int(y),int(m),int(d))
+                except (ValueError, TypeError):
+                    print('Invalid Date')
+                    continue
+                if any((name, dob) == (i[1], i[2]) for i in rows):
+                    print('Voter already registered!')
+                    continue
+                if agecheck(int(y),int(m),int(d)):
+                    print('Eligible to vote!')
+                    if not rows:
+                        vid='V1001'
+                    else:
+                        v=0
+                        vid='V1001'
+                        for i in rows:
+                            if i[0]==vid:
+                                v+=1
+                                vid='V'+str(1000+v+1)
+                    print('\nNew Voter ID: ' , vid)
+                    p=input('Enter new 4-digit Voter PIN: ')
+                    if len(p)==4 and p.isdigit():
+                        p=encode(p)
+                        ex('insert into voter values(%s,%s,%s,%s)',(vid,name,dob,p))
+                        con.commit()
+                        print('Voter Information Added...')
+                        ch=0
+                        break
+                    else:
+                        print('Wrong Pin')
+                        break
+                else:
+                    print('Not eligible to vote...')
+                    break
 
 def candidate():
     ex('use votebase')
@@ -102,50 +109,58 @@ def candidate():
     
     ch=1
     while ch:
-            name=input('\nEnter candidate name: ')
-            dob=input('Enter date of birth (DD-MM-YYYY): ').split('-')
-            try:
-                d,m,y=dob
-                dob=date(int(y),int(m),int(d))
-            except (ValueError, TypeError):
-                print('Invalid Date')
+            if name.isdigit():
                 continue
-            if any((name, dob) == (i[1], i[2]) for i in rows):
-                print('Candidate already registered!')
+            elif name.isspace():
                 continue
-            cit=input('Are you an Indian citizen? (Y/N):')
-            if cit.lower()!='y':
-                print('Not eligible to contest...')
-                continue
-            bar=input('Are you barred from contesting elections due to a criminal conviction? (Y/N): ')
-            if bar.lower()!='n':
-                print('Not eligible to contest...')
-                continue
-            vid=input('Enter your Voter ID (mandatory): ')
-            if agecheck(int(y),int(m),int(d),25):
-                if any((vid, name, dob)==(i[0],i[1],i[2]) for i in vrows):
-                    print('Eligible to contest for elections!')
-                    if not rows:
-                        cid='C1001'
-                    else:
-                        c=0
-                        cid='C1001'
-                        for i in rows:
-                            if i[0]==cid:
-                                c+=1
-                                cid='C'+str(1000+c+1)
-                    print('\nNew Candidate ID: ' , cid)
-                    p=input('Enter 4-digit PIN: ')
-                    if len(p)==4 and p.isdigit():
-                        p=encode(p)
-                        ex('insert into candidate values(%s,%s,%s,%s)',(cid,name,dob,p))
-                        con.commit()
-                        print('Candidate Information Added...')
-                        ch=0
-                        break
-                    else:
-                        print('Wrong Pin')
-                else:
-                    print('Wrong Information Found')
             else:
-                print('Not eligible to contest...')
+                name=input('\nEnter candidate name: ')
+                dob=input('Enter date of birth (DD-MM-YYYY): ').split('-')
+                try:
+                    d,m,y=dob
+                    dob=date(int(y),int(m),int(d))
+                except (ValueError, TypeError):
+                    print('Invalid Date')
+                    continue
+                if any((name, dob) == (i[1], i[2]) for i in rows):
+                    print('Candidate already registered!')
+                    continue
+                cit=input('Are you an Indian citizen? (Y/N):')
+                if cit.lower()!='y':
+                    print('Not eligible to contest...')
+                    continue
+                bar=input('Are you barred from contesting elections due to a criminal conviction? (Y/N): ')
+                if bar.lower()!='n':
+                    print('Not eligible to contest...')
+                    continue
+                vid=input('Enter your Voter ID (mandatory): ')
+                if agecheck(int(y),int(m),int(d),25):
+                    if any((vid, name, dob)==(i[0],i[1],i[2]) for i in vrows):
+                        print('Eligible to contest for elections!')
+                        if not rows:
+                            cid='C1001'
+                        else:
+                            c=0
+                            cid='C1001'
+                            for i in rows:
+                                if i[0]==cid:
+                                    c+=1
+                                    cid='C'+str(1000+c+1)
+                        print('\nNew Candidate ID: ' , cid)
+                        p=input('Enter new 4-digit Candidate PIN: ')
+                        if len(p)==4 and p.isdigit():
+                            p=encode(p)
+                            ex('insert into candidate values(%s,%s,%s,%s)',(cid,name,dob,p))
+                            con.commit()
+                            print('Candidate Information Added...')
+                            ch=0
+                            break
+                        else:
+                            print('Wrong Pin')
+                            break
+                    else:
+                        print('Wrong Information Found')
+                        break
+                else:
+                    print('Not eligible to contest...')
+                    break
