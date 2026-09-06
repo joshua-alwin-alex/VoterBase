@@ -34,7 +34,7 @@ def installrequirements():
             code=process.wait()
             if code==0:
                 print("\n1. windows_tools.installed_software successfully installed")            
-    '''from windows_tools.installed_software import get_installed_software
+    from windows_tools.installed_software import get_installed_software
     for software in get_installed_software():
         if "mysql" in software['name'].lower():
             print("MySQL is already installed")
@@ -42,7 +42,7 @@ def installrequirements():
     else:
         print("Please install MySQL before running the application")
         input("Press Enter to exit the program")
-        sys.exit()'''
+        sys.exit()
     try:
         import numpy
         print("2. numpy is already installed")
