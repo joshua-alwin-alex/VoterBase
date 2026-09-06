@@ -153,6 +153,7 @@ def voting():
                     print("Incorrect Password. Election not stopped.")
                     print("Proceeding with election...")
                     input("Press Enter to continue")
+                    continue
 
 def winnerdetails():
     print("\n==============ELECTION WINNER==============")

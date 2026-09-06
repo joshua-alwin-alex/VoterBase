@@ -243,6 +243,7 @@ def admin():
                 print("Please enter valid choice of action")
     else:
         print("Incorrect Password. Admin privileges denied.")
+        input("Press Enter to go back to Configuration Portal")
 
 def programexit():
     import subprocess
