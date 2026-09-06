@@ -37,92 +37,92 @@ def installrequirements():
     from windows_tools.installed_software import get_installed_software
     for software in get_installed_software():
         if "mysql" in software['name'].lower():
-            print("MySQL is already installed")
+            print("2. MySQL is already installed")
             break
     else:
         print("Please install MySQL before running the application")
-        input("Press Enter to exit the program")
+        input("\nPress Enter to exit the program")
         sys.exit()
     try:
         import numpy
-        print("2. numpy is already installed")
+        print("3. numpy is already installed")
     except:
         try:
             cmd=["pip","install","numpy"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("2. numpy successfully installed")
+                print("3. numpy successfully installed")
         except:
             cmd=["pip3","install","numpy"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("2. numpy successfully installed")
+                print("3. numpy successfully installed")
     try:
         import matplotlib
-        print("3. matplotlib is already installed")
+        print("4. matplotlib is already installed")
     except:
         try:
             cmd=["pip","install","matplotlib"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("3. matplotlib successfully installed")
+                print("4. matplotlib successfully installed")
         except:
             cmd=["pip3","install","matplotlib"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("3. matplotlib successfully installed")
+                print("4. matplotlib successfully installed")
     try:
         import mysql.connector
-        print("4. mysql.connector is already installed")
+        print("5. mysql.connector is already installed")
     except:
         try:
             cmd=["pip","install","mysql.connector"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("4. mysql.connector successfully installed")
+                print("5. mysql.connector successfully installed")
         except:
             cmd=["pip3","install","mysql.connector"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("4. mysql.connector successfully installed")  
+                print("5. mysql.connector successfully installed")  
     try:
         import tabulate
-        print("5. tabulate is already installed")      
+        print("6. tabulate is already installed")      
     except:
         try:
             cmd=["pip","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("5. tabulate successfully installed")
+                print("6. tabulate successfully installed")
         except:
             cmd=["pip3","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("5. tabulate successfully installed")
+                print("6. tabulate successfully installed")
     try:
         import PIL
-        print("6. pillow is already installed")      
+        print("7. pillow is already installed")      
     except:
         try:
             cmd=["pip","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("6. pillow successfully installed")
+                print("7. pillow successfully installed")
         except:
             cmd=["pip3","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("6. pillow successfully installed")
+                print("7. pillow successfully installed")
 
 if __name__=="__main__":  
     print("""\nVoterBase v1.0.0, Copyright \u00a9 2026 Nandan B. Nair and Joshua Alwin Alex""")
