@@ -35,7 +35,7 @@ def installrequirements():
             if code==0:
                 print("\n1. windows_tools.installed_software successfully installed")            
     from windows_tools.installed_software import get_installed_software
-    for software in get_installed_software:
+    for software in get_installed_software():
         if "mysql" in software['name'].lower():
             print("MySQL is already installed")
             break
