@@ -166,9 +166,12 @@ if __name__=="__main__":
     username=input("Enter your MySQL username:")
     password=input("Enter your MySQL password:")
 
+    print("\n==============SET ADMIN PASSWORD==============")
+    admin_password=input("Set your Admin Password:")
+
 
     with open("metadata.txt","w") as f1:
-        login=[username,"\n"+password]
+        login=[username,"\n"+password, "\n"+admin_password]
         f1.writelines(login)
 
 

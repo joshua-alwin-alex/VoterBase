@@ -140,12 +140,19 @@ def voting():
             if ch in "Yy":
                 continue
             else:
-                password='password'
+                with open("metadata.txt","r") as f1:
+                    f1.readline()
+                    f1.readline()
+                    admin_password2=(f1.readline()).strip("\n")
                 ch1=input("\nEnter Admin password:")
-                if ch1==password:
+                if ch1==admin_password2:
                     print("Election stopped by Admin")
                     input("\nPress Enter to go back to Election Portal")
                     return
+                else:
+                    print("Incorrect Password. Election not stopped.")
+                    print("Proceeding with election...")
+                    input("Press Enter to continue")
 
 def winnerdetails():
     print("\n==============ELECTION WINNER==============")

@@ -221,9 +221,12 @@ def candidateeligibility():
         print("Please ask candidates to register for this election before selecting candidates")
 
 def admin():
-    password='password'
+    with open("metadata.txt","r") as f1:
+        f1.readline()
+        f1.readline()
+        admin_password1=(f1.readline()).strip("\n")
     ch=input("Enter Admin password:")
-    if ch==password:
+    if ch==admin_password1:
         while True:
             print("\n==============ADMIN PORTAL==============")
             n=input("\n1. Approve Possible Voters" \
