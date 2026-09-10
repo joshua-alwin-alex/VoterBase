@@ -234,7 +234,7 @@ def admin():
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
     import maskpass
-    ch=maskpass.askpass(prompt='\nEnter Admin password:')
+    ch=maskpass.advpass(prompt='\nEnter Admin password:')
     if ch==admin_password1:
         while True:
             print("\n==============ADMIN PORTAL==============")
@@ -260,7 +260,7 @@ def programexit():
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
     import maskpass
-    ch=maskpass.askpass(prompt='\nEnter Admin password:')
+    ch=maskpass.advpass(prompt='\nEnter Admin password:')
     if ch==admin_password1:
         import subprocess
         print("\n==============EXIT PROGRAM OPTIONS==============")

@@ -196,7 +196,7 @@ if __name__=="__main__":
 
     print("\n==============SET ADMIN PASSWORD==============")
     import maskpass
-    admin_password=maskpass.askpass(prompt='Set your Admin password:')
+    admin_password=maskpass.advpass(prompt='Set your Admin password:')
 
 
     with open("metadata.txt","w") as f1:
