@@ -36,7 +36,7 @@ def installrequirements():
             if code==0:
                 print("\n1. windows_tools.installed_software successfully installed")            
 
-    from windows_tools.installed_software import get_installed_software
+    '''from windows_tools.installed_software import get_installed_software
     for software in get_installed_software():
         if "mysql" in software['name'].lower():
             print("2. MySQL is already installed")
@@ -46,24 +46,24 @@ def installrequirements():
         import os
         os.remove("metadata.txt")
         input("\nPress Enter to exit the program")
-        sys.exit()
+        sys.exit()'''
 
     try:
-        import maskpass
-        print("3. maskpass is already installed")
+        import pwinput
+        print("3. pwinput is already installed")
     except:
         try:
-            cmd=["pip","install","maskpass"]
+            cmd=["pip","install","pwinput"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("3. maskpass successfully installed")
+                print("3. pwinput successfully installed")
         except:
-            cmd=["pip3","install","maskpass"]
+            cmd=["pip3","install","pwinput"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("3. maskpass successfully installed")
+                print("3. pwinput successfully installed")
 
     try:
         import numpy
@@ -195,8 +195,8 @@ if __name__=="__main__":
     password=input("Enter your MySQL password:")
 
     print("\n==============SET ADMIN PASSWORD==============")
-    import maskpass
-    admin_password=maskpass.advpass(prompt='Set your Admin password:')
+    import pwinput
+    admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
 
 
     with open("metadata.txt","w") as f1:
