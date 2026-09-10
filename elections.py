@@ -145,8 +145,8 @@ def voting():
                     f1.readline()
                     admin_password2=(f1.readline()).strip("\n")
                 import sys
-                import pwinput
-                if sys.stdin.isatty(): 
+                if sys.stdin.isatty():
+                    import pwinput
                     ch1=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
                 else:
                     ch1=input('\nEnter Admin password:')

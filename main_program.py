@@ -192,8 +192,8 @@ if __name__=="__main__":
 
     print("\n==============MYSQL LOGIN==============")
     import sys
-    import pwinput
-    if sys.stdin.isatty():    
+    if sys.stdin.isatty():
+        import pwinput
         username=input("Enter your MySQL username:")
         password=pwinput.pwinput(prompt='Enter your MySQL password:', mask='*')
     else:
@@ -202,8 +202,8 @@ if __name__=="__main__":
 
     print("\n==============SET ADMIN PASSWORD==============")
     import sys
-    import pwinput
-    if sys.stdin.isatty():    
+    if sys.stdin.isatty():
+        import pwinput  
         admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
     else:
         admin_password=input("Set your Admin password:")

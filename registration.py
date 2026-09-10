@@ -234,8 +234,8 @@ def admin():
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
     import sys
-    import pwinput
-    if sys.stdin.isatty():    
+    if sys.stdin.isatty():
+        import pwinput   
         ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
     else:
         ch=input('\nEnter Admin password:')
@@ -264,8 +264,8 @@ def programexit():
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
     import sys
-    import pwinput
-    if sys.stdin.isatty(): 
+    if sys.stdin.isatty():
+        import pwinput
         ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
     else:
         ch=input('\nEnter Admin password:')
