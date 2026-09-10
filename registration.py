@@ -233,11 +233,12 @@ def admin():
         f1.readline()
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
-    import warnings
-    from getpass import GetPassWarning
+    import sys
     import pwinput
-    warnings.filterwarnings("ignore", category=GetPassWarning)
-    ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
+    if sys.stdin.isatty():    
+        ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
+    else:
+        ch=input('\nEnter Admin password:')
     if ch==admin_password1:
         while True:
             print("\n==============ADMIN PORTAL==============")
@@ -262,11 +263,12 @@ def programexit():
         f1.readline()
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
-    import warnings
-    from getpass import GetPassWarning
+    import sys
     import pwinput
-    warnings.filterwarnings("ignore", category=GetPassWarning)
-    ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
+    if sys.stdin.isatty(): 
+        ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
+    else:
+        ch=input('\nEnter Admin password:')
     if ch==admin_password1:
         import subprocess
         print("\n==============EXIT PROGRAM OPTIONS==============")
@@ -305,6 +307,10 @@ def programexit():
             else:
                 print("Please enter valid choice of action")
                 flag=True
+    else:
+        print("Incorrect Password. Admin privileges denied.")
+        input("\nPress Enter to go back to Configuration Portal")
+
         
 def finalreview():
     from tabulate import tabulate

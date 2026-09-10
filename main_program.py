@@ -190,17 +190,23 @@ if __name__=="__main__":
 
     installrequirements()
 
-    import warnings
-    from getpass import GetPassWarning
-    import pwinput
-    warnings.filterwarnings("ignore", category=GetPassWarning)
-
     print("\n==============MYSQL LOGIN==============")
-    username=input("Enter your MySQL username:")
-    password=pwinput.pwinput(prompt='Enter your MySQL password:', mask='*')
+    import sys
+    import pwinput
+    if sys.stdin.isatty():    
+        username=input("Enter your MySQL username:")
+        password=pwinput.pwinput(prompt='Enter your MySQL password:', mask='*')
+    else:
+        username=input("Enter your MySQL username:")
+        password=input("Enter your MySQL password:")
 
     print("\n==============SET ADMIN PASSWORD==============")
-    admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
+    import sys
+    import pwinput
+    if sys.stdin.isatty():    
+        admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
+    else:
+        admin_password=input("Set your Admin password:")
 
 
     with open("metadata.txt","w") as f1:
