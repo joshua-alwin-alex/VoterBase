@@ -234,11 +234,11 @@ def admin():
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
     import sys
-    if sys.stdin.isatty():
+    if 'idlelib' in sys.modules:
+        ch=input('\nEnter Admin password:')
+    else:
         import pwinput   
         ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
-    else:
-        ch=input('\nEnter Admin password:')
     if ch==admin_password1:
         while True:
             print("\n==============ADMIN PORTAL==============")
@@ -264,11 +264,11 @@ def programexit():
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
     import sys
-    if sys.stdin.isatty():
+    if 'idlelib' in sys.modules:
+        ch=input('\nEnter Admin password:')
+    else:
         import pwinput
         ch=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
-    else:
-        ch=input('\nEnter Admin password:')
     if ch==admin_password1:
         import subprocess
         print("\n==============EXIT PROGRAM OPTIONS==============")

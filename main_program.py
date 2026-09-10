@@ -192,21 +192,21 @@ if __name__=="__main__":
 
     print("\n==============MYSQL LOGIN==============")
     import sys
-    if sys.stdin.isatty():
-        import pwinput
-        username=input("Enter your MySQL username:")
-        password=pwinput.pwinput(prompt='Enter your MySQL password:', mask='*')
-    else:
+    if 'idlelib' in sys.modules:
         username=input("Enter your MySQL username:")
         password=input("Enter your MySQL password:")
+    else:
+        import pwinput
+        username=input("Enter your MySQL username:")
+        password=pwinput.pwinput(prompt="Enter your MySQL password:", mask='*')
 
     print("\n==============SET ADMIN PASSWORD==============")
     import sys
-    if sys.stdin.isatty():
-        import pwinput  
-        admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
+    if 'idlelib' in sys.modules:
+        admin_password=input('Enter your Admin password')
     else:
-        admin_password=input("Set your Admin password:")
+        import pwinput
+        admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
 
 
     with open("metadata.txt","w") as f1:

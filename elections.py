@@ -145,11 +145,11 @@ def voting():
                     f1.readline()
                     admin_password2=(f1.readline()).strip("\n")
                 import sys
-                if sys.stdin.isatty():
+                if 'idlelib' in sys.modules:
+                    ch1=input('\nEnter Admin password:')
+                else:
                     import pwinput
                     ch1=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
-                else:
-                    ch1=input('\nEnter Admin password:')
                 if ch1==admin_password2:
                     print("Election stopped by Admin")
                     input("\nPress Enter to go back to Election Portal")
