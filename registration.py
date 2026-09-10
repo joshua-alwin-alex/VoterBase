@@ -233,7 +233,8 @@ def admin():
         f1.readline()
         f1.readline()
         admin_password1=(f1.readline()).strip("\n")
-    ch=input("Enter Admin password:")
+    import maskpass
+    ch=maskpass.askpass(prompt='\nEnter Admin password:')
     if ch==admin_password1:
         while True:
             print("\n==============ADMIN PORTAL==============")
@@ -254,43 +255,50 @@ def admin():
         input("\nPress Enter to go back to Configuration Portal")
 
 def programexit():
-    import subprocess
-    print("\n==============EXIT PROGRAM OPTIONS==============")
-    flag=True
-    while flag:
-        n=input("\n1. Delete Permanent Voter and Candidate Records" \
-        "\n2. Delete Current Election Records" \
-        "\n3. Exit the Program" \
-        "\n4. Go Back to Configuration Portal" \
-        "\nEnter the choice of action:")
-        if n=='1':
-            ex('use votebase')
-            ex('delete from voter')
-            ex('delete from candidate')
-            print("Permanent Voter and Candidate Records Deleted")
-            flag=True
-            con.commit()
-        elif n=='2':
-            ex('use election')
-            ex('delete from voter')
-            ex('delete from candidate')
-            ex('delete from possiblevoter')
-            ex('delete from possiblecandidate')
-            print("Current Election Records Deleted")
-            flag=True
-            con.commit()                         
-        elif n=='3':
-            import os
-            os.remove("metadata.txt")
-            print("Thanks for using VoterBase")
-            input("Press Enter to exit the program")
-            import sys
-            sys.exit()
-        elif n=='4':
-            break
-        else:
-            print("Please enter valid choice of action")
-            flag=True
+    with open("metadata.txt","r") as f1:
+        f1.readline()
+        f1.readline()
+        admin_password1=(f1.readline()).strip("\n")
+    import maskpass
+    ch=maskpass.askpass(prompt='\nEnter Admin password:')
+    if ch==admin_password1:
+        import subprocess
+        print("\n==============EXIT PROGRAM OPTIONS==============")
+        flag=True
+        while flag:
+            n=input("\n1. Delete Permanent Voter and Candidate Records" \
+            "\n2. Delete Current Election Records" \
+            "\n3. Exit the Program" \
+            "\n4. Go Back to Configuration Portal" \
+            "\nEnter the choice of action:")
+            if n=='1':
+                ex('use votebase')
+                ex('delete from voter')
+                ex('delete from candidate')
+                print("Permanent Voter and Candidate Records Deleted")
+                flag=True
+                con.commit()
+            elif n=='2':
+                ex('use election')
+                ex('delete from voter')
+                ex('delete from candidate')
+                ex('delete from possiblevoter')
+                ex('delete from possiblecandidate')
+                print("Current Election Records Deleted")
+                flag=True
+                con.commit()                         
+            elif n=='3':
+                import os
+                os.remove("metadata.txt")
+                print("Thanks for using VoterBase")
+                input("Press Enter to exit the program")
+                import sys
+                sys.exit()
+            elif n=='4':
+                break
+            else:
+                print("Please enter valid choice of action")
+                flag=True
         
 def finalreview():
     from tabulate import tabulate

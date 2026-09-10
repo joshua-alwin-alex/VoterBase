@@ -18,6 +18,7 @@ def installrequirements():
     print("\n==============INSTALLING REQUIREMENTS==============")
     import sys
     import subprocess
+
     try:
         import windows_tools.installed_software
         print("\n1. windows_tools.installed_software is already installed")
@@ -34,7 +35,8 @@ def installrequirements():
             code=process.wait()
             if code==0:
                 print("\n1. windows_tools.installed_software successfully installed")            
-    from windows_tools.installed_software import get_installed_software
+
+    '''from windows_tools.installed_software import get_installed_software
     for software in get_installed_software():
         if "mysql" in software['name'].lower():
             print("2. MySQL is already installed")
@@ -44,87 +46,109 @@ def installrequirements():
         import os
         os.remove("metadata.txt")
         input("\nPress Enter to exit the program")
-        sys.exit()
+        sys.exit()'''
+
+    try:
+        import maskpass
+        print("3. maskpass is already installed")
+    except:
+        try:
+            cmd=["pip","install","maskpass"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("3. maskpass successfully installed")
+        except:
+            cmd=["pip3","install","maskpass"]
+            process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            code=process.wait()
+            if code==0:
+                print("3. maskpass successfully installed")
+
     try:
         import numpy
-        print("3. numpy is already installed")
+        print("4. numpy is already installed")
     except:
         try:
             cmd=["pip","install","numpy"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("3. numpy successfully installed")
+                print("4. numpy successfully installed")
         except:
             cmd=["pip3","install","numpy"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("3. numpy successfully installed")
+                print("4. numpy successfully installed")
+
     try:
         import matplotlib
-        print("4. matplotlib is already installed")
+        print("5. matplotlib is already installed")
     except:
         try:
             cmd=["pip","install","matplotlib"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("4. matplotlib successfully installed")
+                print("5. matplotlib successfully installed")
         except:
             cmd=["pip3","install","matplotlib"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("4. matplotlib successfully installed")
+                print("5. matplotlib successfully installed")
+
     try:
         import mysql.connector
-        print("5. mysql.connector is already installed")
+        print("6. mysql.connector is already installed")
     except:
         try:
             cmd=["pip","install","mysql.connector"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("5. mysql.connector successfully installed")
+                print("6. mysql.connector successfully installed")
         except:
             cmd=["pip3","install","mysql.connector"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("5. mysql.connector successfully installed")  
+                print("6. mysql.connector successfully installed")  
+
     try:
         import tabulate
-        print("6. tabulate is already installed")      
+        print("7. tabulate is already installed")      
     except:
         try:
             cmd=["pip","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("6. tabulate successfully installed")
+                print("7. tabulate successfully installed")
         except:
             cmd=["pip3","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("6. tabulate successfully installed")
+                print("7. tabulate successfully installed")
+
     try:
         import PIL
-        print("7. pillow is already installed")      
+        print("8. pillow is already installed")      
     except:
         try:
             cmd=["pip","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("7. pillow successfully installed")
+                print("8. pillow successfully installed")
         except:
             cmd=["pip3","install","tabulate"]
             process=subprocess.Popen(cmd,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             code=process.wait()
             if code==0:
-                print("7. pillow successfully installed")
+                print("8. pillow successfully installed")
 
 if __name__=="__main__":  
     print("""\nVoterBase v1.0.0, Copyright \u00a9 2026 Nandan B. Nair and Joshua Alwin Alex""")
@@ -164,12 +188,15 @@ if __name__=="__main__":
     else:
         print("Invalid choice of action. Proceeding with application...")
 
+    installrequirements()
+
     print("\n==============MYSQL LOGIN==============")
     username=input("Enter your MySQL username:")
     password=input("Enter your MySQL password:")
 
     print("\n==============SET ADMIN PASSWORD==============")
-    admin_password=input("Set your Admin Password:")
+    import maskpass
+    admin_password=maskpass.askpass(prompt='Set your Admin password:')
 
 
     with open("metadata.txt","w") as f1:
@@ -179,7 +206,6 @@ if __name__=="__main__":
 
 
 if __name__=="__main__":
-    installrequirements()
     import mysql.connector as sq
     con=sq.connect(host='localhost', user=username, password=password)
     cur=con.cursor()

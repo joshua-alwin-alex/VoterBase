@@ -144,7 +144,8 @@ def voting():
                     f1.readline()
                     f1.readline()
                     admin_password2=(f1.readline()).strip("\n")
-                ch1=input("\nEnter Admin password:")
+                import maskpass
+                ch1=maskpass.askpass(prompt='\nEnter Admin password:')
                 if ch1==admin_password2:
                     print("Election stopped by Admin")
                     input("\nPress Enter to go back to Election Portal")
