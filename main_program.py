@@ -36,7 +36,7 @@ def installrequirements():
             if code==0:
                 print("\n1. windows_tools.installed_software successfully installed")            
 
-    '''from windows_tools.installed_software import get_installed_software
+    from windows_tools.installed_software import get_installed_software
     for software in get_installed_software():
         if "mysql" in software['name'].lower():
             print("2. MySQL is already installed")
@@ -46,7 +46,7 @@ def installrequirements():
         import os
         os.remove("metadata.txt")
         input("\nPress Enter to exit the program")
-        sys.exit()'''
+        sys.exit()
 
     try:
         import pwinput
