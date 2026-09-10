@@ -144,7 +144,10 @@ def voting():
                     f1.readline()
                     f1.readline()
                     admin_password2=(f1.readline()).strip("\n")
+                import warnings
+                from getpass import GetPassWarning
                 import pwinput
+                warnings.filterwarnings("ignore", category=GetPassWarning)
                 ch1=pwinput.pwinput(prompt='\nEnter Admin password:', mask='*')
                 if ch1==admin_password2:
                     print("Election stopped by Admin")

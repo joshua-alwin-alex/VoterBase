@@ -190,12 +190,16 @@ if __name__=="__main__":
 
     installrequirements()
 
+    import warnings
+    from getpass import GetPassWarning
+    import pwinput
+    warnings.filterwarnings("ignore", category=GetPassWarning)
+
     print("\n==============MYSQL LOGIN==============")
     username=input("Enter your MySQL username:")
-    password=input("Enter your MySQL password:")
+    password=pwinput.pwinput(prompt='Enter your MySQL password:', mask='*')
 
     print("\n==============SET ADMIN PASSWORD==============")
-    import pwinput
     admin_password=pwinput.pwinput(prompt='Set your Admin password:', mask='*')
 
 
